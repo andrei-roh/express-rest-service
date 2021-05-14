@@ -16,7 +16,11 @@ router.route('/').post(async (req, res) => {
     })
   );
   res.json(User.toResponse(user));
+<<<<<<< Updated upstream
 })
+=======
+});
+>>>>>>> Stashed changes
 
 router.route('/:id').get(async (req, res) => {
   try {
@@ -30,11 +34,19 @@ router.route('/:id').get(async (req, res) => {
 router.route('/:id').put(async (req, res) => {
   const user = await usersService.update(req.params.id, req.body);
   res.json(User.toResponse(user));
+<<<<<<< Updated upstream
 })
+=======
+});
+>>>>>>> Stashed changes
 
 router.route('/:id').delete(async (req, res) => {
   await usersService.deleteUser(req.params.id);
   res.status(204).end()
+<<<<<<< Updated upstream
 })
+=======
+});
+>>>>>>> Stashed changes
 
 module.exports = router;
