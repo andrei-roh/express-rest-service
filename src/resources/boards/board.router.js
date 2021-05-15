@@ -4,7 +4,7 @@ const boardsService = require('./board.service');
 
 router.route('/').get(async (req, res) => {
   const boards = await boardsService.getAll();
-  res.json(boards.map(Board.toResponse));
+  res.status(boards ? 200 : 400).json(boards.map(Board.toResponse));
 });
 
 router.route('/').post(async (req, res) => {
@@ -13,13 +13,13 @@ router.route('/').post(async (req, res) => {
       columns: req.body.columns,
     })
   );
-  res.json(Board.toResponse(board));
+  res.status(board ? 201 : 400).json(Board.toResponse(board));
 });
 
 router.route('/:id').get(async (req, res) => {
   try {
     const board = await boardsService.get(req.params.id);
-    res.json(Board.toResponse(board));
+    res.status(board ? 200 : 400).json(Board.toResponse(board));
   } catch(e) {
     res.status(404).send(e.message);
   }
@@ -27,12 +27,12 @@ router.route('/:id').get(async (req, res) => {
 
 router.route('/:id').put(async (req, res) => {
   const board = await boardsService.update(req.params.id, req.body);
-  res.json(Board.toResponse(board));
+  res.status(board ? 200 : 404).json(Board.toResponse(board));
 });
 
 router.route('/:id').delete(async (req, res) => {
-  await boardsService.deleteBoard(req.params.id);
-  res.status(204).end()
+  const board = await boardsService.deleteBoard(req.params.id);
+  res.status(board ? 204 : 404).end()
 });
 
 module.exports = router;

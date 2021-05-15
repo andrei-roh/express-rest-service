@@ -5,7 +5,7 @@ const usersService = require('./user.service');
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
   // map user fields to exclude secret fields like "password"
-  res.json(users.map(User.toResponse));
+  res.status(users ? 200 : 400).json(users.map(User.toResponse));
 });
 
 router.route('/').post(async (req, res) => {
@@ -15,17 +15,13 @@ router.route('/').post(async (req, res) => {
       password: req.body.password
     })
   );
-  res.json(User.toResponse(user));
-<<<<<<< Updated upstream
-})
-=======
+    res.status(user ? 201 : 400).json(User.toResponse(user));
 });
->>>>>>> Stashed changes
 
 router.route('/:id').get(async (req, res) => {
   try {
     const user = await usersService.get(req.params.id);
-    res.json(User.toResponse(user));
+    res.status(user ? 200 : 400).json(User.toResponse(user));
   } catch(e) {
     res.status(404).send(e.message);
   }
@@ -33,20 +29,12 @@ router.route('/:id').get(async (req, res) => {
 
 router.route('/:id').put(async (req, res) => {
   const user = await usersService.update(req.params.id, req.body);
-  res.json(User.toResponse(user));
-<<<<<<< Updated upstream
-})
-=======
+  res.status(user ? 200 : 400).json(User.toResponse(user));
 });
->>>>>>> Stashed changes
 
 router.route('/:id').delete(async (req, res) => {
-  await usersService.deleteUser(req.params.id);
-  res.status(204).end()
-<<<<<<< Updated upstream
-})
-=======
+  const user = await usersService.deleteUser(req.params.id);
+  res.status(user ? 204 : 400).end()
 });
->>>>>>> Stashed changes
 
 module.exports = router;
