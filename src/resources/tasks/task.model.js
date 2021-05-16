@@ -7,7 +7,7 @@ class Task {
     order = 0,
     description = 'DEFAULT TASK DESCRIPTION',
     userId = null,
-    boardId = 'DEFAULT BOARD ID',
+    boardId = null,
     columnId = null
   } = {}) {
     this.id = id;

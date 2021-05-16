@@ -31,8 +31,13 @@ router.route('/:id').put(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
-  const board = await boardsService.deleteBoard(req.params.id);
-  res.status(board ? 204 : 404).end()
+  try {
+    await boardsService.deleteBoard(req.params.id);
+    res.status(204).send('Board has been deleted');
+  } catch (e) {
+    res.status(404).send('Could not find board');
+  }
+  res.status(await boardsService.deleteBoard(req.params.id) ? 204 : 404).end()
 });
 
 module.exports = router;

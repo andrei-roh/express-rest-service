@@ -35,8 +35,13 @@ router.route('/:id').put(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
-  const task = await tasksService.deleteTask(req.params.id);
-  res.status(task ? 204 : 404).end();
+  try {
+    await tasksService.deleteTask(req.params.id);
+    res.status(204).send('Task has been deleted');
+  } catch (e) {
+    res.status(404).send('Could not find task');
+  }
+  res.status(await tasksService.deleteTask(req.params.id) ? 204 : 404).end()
 });
 
 module.exports = router;
