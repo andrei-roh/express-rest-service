@@ -13,7 +13,6 @@ tasks.push(new Task(), new Task(), new Task())
 const getAllUsers = async () => {
   const res = JSON.parse(JSON.stringify(users));
   return res
-  // return users.slice(0)
 }
 const createUser = async user => {
   users.push(user);
@@ -72,19 +71,18 @@ const createTask = async (task) => {
   tasks.push(task);
   return task;
 }
-const getTask = async id => tasks.filter(element => element.id === id)[0];
-const updateTask = (id, updateBody) => {
-  const { title, order, description, userId, boardId, columnId } = updateBody;
-  const task = tasks.filter(element => element.id === id)[0];
-  task.title = title;
-  task.order = order;
-  task.description = description;
-  task.userId = userId;
-  task.boardId = boardId;
-  task.columnId = columnId;
+const getTask = async (taskId, boardId) => tasks.find(element => element.id === taskId && element.boardId === boardId);
+const updateTask = (id, updateBody, boardId) => {
+  const task = tasks.filter(element => element.id === id && element.boardId === boardId);
+  task.title = updateBody.title;
+  task.order = updateBody.order;
+  task.description = updateBody.description;
+  task.userId = updateBody.userId;
+  task.boardId = updateBody.boardId;
+  task.columnId = updateBody.columnId;
   return task
 };
-const deleteTask = async id => tasks.splice(tasks.filter(element => element.id === id), 1)
+const deleteTask = async (taskId, boardId) => tasks.splice(tasks.filter(element => element.id === taskId && element.boardId === boardId), 1)
 
 module.exports = {
   getAllUsers,

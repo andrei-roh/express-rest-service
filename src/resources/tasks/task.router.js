@@ -22,7 +22,7 @@ router.route('/').post(async (req, res) => {
 
 router.route('/:taskId').get(async (req, res) => {
   try {
-    const task = await tasksService.get(req.params.taskId);
+    const task = await tasksService.get(req.params.taskId, req.params.boardId);
     res.status(task ? 200 : 400).json(Task.toResponse(task));
   } catch(e) {
     res.status(404).send(e.message);
@@ -30,18 +30,18 @@ router.route('/:taskId').get(async (req, res) => {
 });
 
 router.route('/:id').put(async (req, res) => {
-  const task = await tasksService.update(req.params.id, req.body);
+  const task = await tasksService.update(req.params.id, req.params.boardId, req.body);
   res.status(task ? 200 : 400).json(Task.toResponse(task));
 });
 
 router.route('/:id').delete(async (req, res) => {
   try {
-    await tasksService.deleteTask(req.params.id);
+    await tasksService.deleteTask(req.params.id, req.params.boardId);
     res.status(204).send('Task has been deleted');
   } catch (e) {
     res.status(404).send('Could not find task');
   }
-  res.status(await tasksService.deleteTask(req.params.id) ? 204 : 404).end()
+  res.status(await tasksService.deleteTask(req.params.id, req.params.boardId) ? 204 : 404).end()
 });
 
 module.exports = router;

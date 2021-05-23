@@ -4,26 +4,26 @@ const getAll = async boardId => database.getAllTasks(boardId);
 
 const create = async task => database.createTask(task);
 
-const get = async id => {
-  const task = await database.getTask(id);
+const get = async (taskId, boardId) => {
+  const task = await database.getTask(taskId, boardId);
+  if (!task) {
+    throw new Error(`Task with id: ${taskId} was not found!`);
+  }
+  return task
+};
+
+const update = async (id, body, boardId) => {
+  const task = database.updateTask(id, body, boardId);
   if (!task) {
     throw new Error(`Task with id: ${id} was not found!`);
   }
   return task
 };
 
-const update = async (id, body) => {
-  const task = await database.updateTask(id, body);
+const deleteTask = async (taskId, boardId) => {
+  const task = await database.deleteTask(taskId, boardId);
   if (!task) {
-    throw new Error(`Task with id: ${id} was not found!`);
-  }
-  return task
-};
-
-const deleteTask = async id => {
-  const task = await database.deleteTask(id);
-  if (!task) {
-    throw new Error(`User with id: ${id} was not found!`);
+    throw new Error(`User with id: ${taskId} was not found!`);
   }
   return task
 };
