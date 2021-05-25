@@ -63,17 +63,14 @@ const deleteBoard = async (id) => {
 }
 
 
-const getAllTasks = async (boardId) => {
-  const res = tasks.filter(element => element.id === boardId);
-  return res
-}
+const getAllTasks = async (boardId) => tasks.filter(element => element.boardId === boardId);
 const createTask = async (task) => {
   tasks.push(task);
   return task;
 }
 const getTask = async (taskId, boardId) => tasks.find(element => element.id === taskId && element.boardId === boardId);
-const updateTask = (id, updateBody, boardId) => {
-  const task = tasks.filter(element => element.id === id && element.boardId === boardId);
+const updateTask = (id, updateBody) => {
+  const task = tasks.filter(element => element.id === id)[0];
   task.title = updateBody.title;
   task.order = updateBody.order;
   task.description = updateBody.description;
