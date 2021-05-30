@@ -1,4 +1,6 @@
-const uuid = require('uuid');
+// import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
+import { IBoardUpdatedBody } from './board.types';
 
 /**
 * Create board's class.
@@ -8,26 +10,23 @@ const uuid = require('uuid');
 * @param { Array<Column> } board.columns - Board's columns
 */
 class Board {
+  id: string;
+  title: string;
+  columns: object;
   constructor({
-    id = uuid.v4(),
     title = 'DEFAULT BOARD TITLE',
     columns = [
       {
-        id: uuid.v4(),
+        id: uuidv4(),
         title: 'DEFAULT COLUMN TITLE',
         order: 0
       }
-    ]
-  } = {}) {
-    this.id = id;
+    ],
+  }: IBoardUpdatedBody) {
+    this.id = uuidv4();
     this.title = title;
     this.columns = columns;
   }
-
-  static toResponse(board) {
-    const { id, title, columns } = board;
-    return { id, title, columns };
-  }
 }
 
-module.exports = Board;
+export { Board };

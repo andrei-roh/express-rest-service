@@ -1,4 +1,6 @@
-const uuid = require('uuid');
+// import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
+import { ITaskDataFromRequest } from './task.types';
 
 /**
  * Create task's class.
@@ -12,16 +14,22 @@ const uuid = require('uuid');
  * @param { String|null } task.columnId - Task's column id
  */
 class Task {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
   constructor({
-    id = uuid.v4(),
     title = 'DEFAULT TASK TITLE',
     order = 0,
     description = 'DEFAULT TASK DESCRIPTION',
     userId = null,
     boardId = null,
     columnId = null
-  } = {}) {
-    this.id = id;
+  }: ITaskDataFromRequest) {
+    this.id = uuidv4();
     this.title = title;
     this.order = order;
     this.description = description;
@@ -29,11 +37,6 @@ class Task {
     this.boardId = boardId;
     this.columnId = columnId;
   }
-
-  static toResponse(task) {
-    const { id, title, order, description, userId, boardId, columnId } = task;
-    return { id, title, order, description, userId, boardId, columnId };
-  }
 }
 
-module.exports = Task;
+export { Task };
