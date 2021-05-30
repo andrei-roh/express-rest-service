@@ -1,9 +1,9 @@
 import {
-  getAllTasks as getAllTasks,
-  createTask as createTask,
-  getTask as getTask,
-  updateTask as updateTask,
-  deleteTask as deleteTask,
+  getAllTasks,
+  createTask,
+  getTask,
+  updateTask,
+  deleteTask
  } from '../../common/database';
  import { ITaskUpdatedBody } from './task.types';
 

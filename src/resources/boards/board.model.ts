@@ -1,6 +1,6 @@
-// import uuid from 'uuid';
 import { v4 as uuidv4 } from 'uuid';
 import { IBoardUpdatedBody } from './board.types';
+import { IColumn } from './column.types';
 
 /**
 * Create board's class.
@@ -10,9 +10,13 @@ import { IBoardUpdatedBody } from './board.types';
 * @param { Array<Column> } board.columns - Board's columns
 */
 class Board {
+
   id: string;
+
   title: string;
-  columns: object;
+
+  columns: Array<IColumn>;
+
   constructor({
     title = 'DEFAULT BOARD TITLE',
     columns = [

@@ -15,12 +15,19 @@ import { ITaskDataFromRequest } from './task.types';
  */
 class Task {
   id: string;
+
   title: string;
+
   order: number;
+
   description: string;
+
   userId: string | null;
+
   boardId: string | null;
+
   columnId: string | null;
+
   constructor({
     title = 'DEFAULT TASK TITLE',
     order = 0,

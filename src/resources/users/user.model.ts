@@ -14,10 +14,15 @@ import {
   * @param { String } user.password - User's password
   */
 class User {
+
   id: string;
+
   name: string;
+
   login: string;
+
   password: string;
+
   constructor(user: IUserUpdatedBody) {
     const { name, login, password } = user;
     this.id = uuidv4();
