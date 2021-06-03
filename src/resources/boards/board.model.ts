@@ -19,13 +19,7 @@ class Board {
 
   constructor({
     title = 'DEFAULT BOARD TITLE',
-    columns = [
-      {
-        id: uuidv4(),
-        title: 'DEFAULT COLUMN TITLE',
-        order: 0
-      }
-    ],
+    columns = [],
   }: IBoardUpdatedBody) {
     this.id = uuidv4();
     this.title = title;

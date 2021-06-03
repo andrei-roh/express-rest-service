@@ -4,6 +4,7 @@ import {
   get as getUserById,
   update as updateUser,
   delUser as deleteUser,
+  delTasks as deleteUserTasks,
 } from './user.memory.repository';
 import { IUserUpdatedBody } from './user.types';
 
@@ -37,6 +38,8 @@ const update = (id: string, body: IUserUpdatedBody) => updateUser(id, body);
   * @param { String } user's id
   * @returns { Promise<User[]> } Returns users without deleted user and tasks without tasks of deleted user
   */
-const del = (id: string) => deleteUser(id);
+const delUser = (id: string) => deleteUser(id);
 
-export const usersService = { getAll, get, create, update, del };
+const delTasks = (id: string) => deleteUserTasks(id);
+
+export const usersService = { getAll, get, create, update, delUser, delTasks };

@@ -12,7 +12,7 @@ import {
   * @param { String } board's id
   * @returns { Promise<Task[]> } Returns board's tasks
   */
-const getAll = (boardId: string) => getAllTasks(boardId);
+const getAll = () => getAllTasks();
 /**
   * Create task
   * @params { CreatedTaskBody } (title, order, description, userId, boardId) - information about new Task
@@ -32,7 +32,7 @@ const get = (taskId: string, boardId: string) => getTask(taskId, boardId);
   * @param { UpdatedTaskBody } changed task's body
   * @returns { Promise<Task[]|undefined> } Returns updated task
   */
-const update = (id: string, body: ITaskUpdatedBody) => updateTask(id, body);
+const update = (id: string, boardId: string, body: ITaskUpdatedBody) => updateTask(id, boardId, body);
 /**
   * Delete task
   * This function does asynchronous request DELETE to the server for delete task set task's id and board's id

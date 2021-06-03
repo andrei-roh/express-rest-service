@@ -4,6 +4,7 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  deleteUserTasks,
  } from '../../common/database';
 import { IUserUpdatedBody } from './user.types';
 
@@ -57,4 +58,12 @@ const delUser = async (id: string) => {
   return user
 };
 
-export { getAll, create, get, update, delUser };
+const delTasks = async (id: string) => {
+  const tasks = await deleteUserTasks(id);
+  if (!tasks) {
+    throw new Error(`Tasks of user with id: ${id} was not found!`);
+  }
+  return tasks
+};
+
+export { getAll, create, get, update, delUser, delTasks };

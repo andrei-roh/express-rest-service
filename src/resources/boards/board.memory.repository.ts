@@ -4,6 +4,7 @@ import {
   createBoard,
   updateBoard,
   deleteBoard,
+  deleteBoardTasks,
  } from '../../common/database';
  import { IBoardUpdatedBody } from './board.types';
 /**
@@ -56,4 +57,12 @@ const delBoard = async (id: string) => {
   return board
 };
 
-export { getAll, create, get, update, delBoard };
+const delTasks = async (id: string) => {
+  const tasks = await deleteBoardTasks(id);
+  if (!tasks) {
+    throw new Error(`Tasks of board with id: ${id} was not found!`);
+  }
+  return tasks
+};
+
+export { getAll, create, get, update, delBoard, delTasks };

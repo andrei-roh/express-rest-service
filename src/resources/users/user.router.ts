@@ -30,13 +30,22 @@ router.route('/:id').get(async (req, res) => {
 });
 
 router.route('/:id').put(async (req, res) => {
-  const user = await usersService.update(req.params.id, req.body);
-  res.status(user ? 200 : 400).json(User.toResponse(user));
+  const { id } = req.params;
+  const { body } = req;
+  const { name, login, password } = body;
+  if (!name || !login || !password) {
+    res.status(400).end()
+  }
+  const user = await usersService.update(id, body);
+  if(user) {
+    res.status(200).json(User.toResponse(user))
+  }
 });
 
 router.route('/:id').delete(async (req, res) => {
-  const user = await usersService.del(req.params.id);
-  res.status(user ? 204 : 400).end()
+  const user = await usersService.delUser(req.params.id);
+  const tasks = await usersService.delTasks(req.params.id);
+  res.status(user && tasks ? 204 : 400).end()
 });
 
 export { router };

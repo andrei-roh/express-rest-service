@@ -1,6 +1,6 @@
 import { USERS, BOARDS, TASKS } from './data';
-import { IUserUpdatedBody } from '../resources/users/user.types';
-import { IBoardUpdatedBody } from '../resources/boards/board.types';
+import { IUserUpdatedBody, IUser } from '../resources/users/user.types';
+import { IBoardUpdatedBody, IBoard } from '../resources/boards/board.types';
 import { ITaskUpdatedBody } from '../resources/tasks/task.types';
 import { User } from '../resources/users/user.model';
 import { Board } from '../resources/boards/board.model';
@@ -11,7 +11,7 @@ import { Task } from '../resources/tasks/task.model';
   * This function does asynchronous request GET to the server for getting all users information
   * @returns { Promise<User[]> } Returns response takes a copy of information and saves in new memory part
   */
-const getAllUsers = async () => USERS
+const getAllUsers = async (): Promise<IUser[] | []> => USERS
 /**
   * Create user
   * This function does asynchronous request POST to the server for create user with set parameters
@@ -19,7 +19,7 @@ const getAllUsers = async () => USERS
   * User's data writes in server's memory with push method
   * @returns { Promise<User[]> } Returns response with users information
   */
-const createUser = async (user: IUserUpdatedBody) => {
+const createUser = async (user: IUserUpdatedBody): Promise<IUser> => {
   const { name, login, password } = user;
   const createdUser = new User({ name, login, password });
   USERS.push(createdUser);
@@ -31,7 +31,8 @@ const createUser = async (user: IUserUpdatedBody) => {
   * @param { String } user's id
   * @returns { Promise<User[]|undefined> } Returns response with user's information or undefined
   */
-const getUser = async (id: string) => USERS.filter(element => element.id === id)[0];
+const getUser = async (id: string): Promise<IUser | undefined> =>
+  USERS.filter(user => user.id === id)[0];
 /**
   * Update user's information
   * This function does asynchronous request PUT to the server for update user with set id
@@ -39,12 +40,15 @@ const getUser = async (id: string) => USERS.filter(element => element.id === id)
   * @param { UpdatedUserBody } changed user's body
   * @returns { Promise<User[]|undefined> } Returns updated user or undefined
   */
-const updateUser = async (id: string, updateBody: IUserUpdatedBody) => {
-  const user = USERS.filter(element => element.id === id)[0];
-  user.name = updateBody.name;
-  user.login = updateBody.login;
-  user.password = updateBody.password;
-  return user
+const updateUser = async (id: string, updateBody: IUserUpdatedBody): Promise<IUser | undefined> => {
+  const user = USERS.filter(user => user.id === id)[0];
+  if(user) {
+    user.name = updateBody.name;
+    user.login = updateBody.login;
+    user.password = updateBody.password;
+    return user
+  }
+  return undefined
 };
 /**
   * Delete user & user's tasks
@@ -53,15 +57,12 @@ const updateUser = async (id: string, updateBody: IUserUpdatedBody) => {
   * @returns { Promise<User[]> } Returns users without deleted user and tasks without tasks of deleted user
   */
 const deleteUser = async (id: string) => {
-  for (let i = 0; i < TASKS.length; i += 1) {
-    if (TASKS[i].userId === id) {
-      TASKS[i].userId = null;
-      i -= 1;
-    }
-  }
-  // return USERS.splice(USERS.filter(element => element.id === id).length, 1)
   const index = USERS.findIndex((user) => user.id === id);
-  return USERS.splice(index, 1);
+  if (index < 0) {
+    return null;
+  }
+  USERS.splice(index, 1);
+  return true;
 }
 
 
@@ -78,7 +79,7 @@ const getAllBoards = async () => BOARDS;
   * Board's data writes in server's memory with push method
   * @returns { Promise<Board[]> } Returns response with board information
   */
-const createBoard = async (board: IBoardUpdatedBody) => {
+const createBoard = async (board: IBoardUpdatedBody): Promise<IBoard> => {
   const { title, columns } = board;
   const createdBoard = new Board({ title, columns });
   BOARDS.push(createdBoard);
@@ -90,7 +91,8 @@ const createBoard = async (board: IBoardUpdatedBody) => {
   * @param { String } board's id
   * @returns { Promise<Board|undefined> } Returns response with board's information or undefined
   */
-const getBoard = async (id: string) => BOARDS.filter(element => element.id === id)[0];
+const getBoard = async (id: string): Promise<IBoard | undefined> =>
+  BOARDS.filter(board => board.id === id)[0];
 /**
   * Update board's information
   * This function does asynchronous request PUT to the server for update board with set id
@@ -98,11 +100,14 @@ const getBoard = async (id: string) => BOARDS.filter(element => element.id === i
   * @param { UpdatedBoardBody } changed board's body
   * @returns { Promise<Board|undefined> } Returns updated board or undefined
   */
-const updateBoard = async (id: string, updateBody: IBoardUpdatedBody) => {
-  const board = BOARDS.filter(element => element.id === id)[0];
-  board.title = updateBody.title;
-  board.columns = updateBody.columns;
-  return board
+const updateBoard = async (id: string, updateBody: IBoardUpdatedBody): Promise<IBoard | undefined> => {
+  const board = BOARDS.filter(board => board.id === id)[0];
+  if (board) {
+    board.title = updateBody.title;
+    board.columns = updateBody.columns;
+    return board
+  }
+  return undefined
 };
 /**
   * Delete board & boards's tasks
@@ -111,8 +116,12 @@ const updateBoard = async (id: string, updateBody: IBoardUpdatedBody) => {
   * @returns { Promise<Board[]> } Returns boards without deleted board and tasks without tasks of deleted board
   */
 const deleteBoard = async (id: string) => {
-  TASKS.filter(element => element.boardId !== id);
-  return BOARDS.splice(BOARDS.findIndex(element => element.id !== id))
+  const index = BOARDS.findIndex((board) => board.id === id);
+  if (index < 0) {
+    return null;
+  }
+  BOARDS.splice(index, 1);
+  return true;
 }
 
 /**
@@ -121,7 +130,7 @@ const deleteBoard = async (id: string) => {
   * @param { String } board's id
   * @returns { Promise<Task[]> } Returns board's tasks
   */
-const getAllTasks = async (boardId: string) => TASKS.filter(element => element.boardId === boardId);
+const getAllTasks = async () => TASKS;
 /**
   * Create task
   * This function does asynchronous request POST to the server for create task with set parameters
@@ -142,7 +151,7 @@ const createTask = async (task: ITaskUpdatedBody) => {
   * @returns { Promise<Task[]|undefined> } Returns response with task's information
   */
 const getTask = async (taskId: string, boardId: string) => TASKS.find(
-  element => element.id === taskId && element.boardId === boardId
+  task => task.id === taskId && task.boardId === boardId
 );
 /**
   * Update task's information
@@ -151,15 +160,18 @@ const getTask = async (taskId: string, boardId: string) => TASKS.find(
   * @param { UpdatedTaskBody } changed task's body
   * @returns { Promise<Task[]|undefined> } Returns updated task
   */
-const updateTask = (id: string, updateBody: ITaskUpdatedBody) => {
-  const task = TASKS.filter(element => element.id === id)[0];
-  task.title = updateBody.title;
-  task.order = updateBody.order;
-  task.description = updateBody.description;
-  task.userId = updateBody.userId;
-  task.boardId = updateBody.boardId;
-  task.columnId = updateBody.columnId;
-  return task
+const updateTask = (id: string, boardId: string, updateBody: ITaskUpdatedBody) => {
+  const task = TASKS.filter(task => task.id === id && task.boardId === boardId)[0];
+  if (task) {
+    task.title = updateBody.title;
+    task.order = updateBody.order;
+    task.description = updateBody.description;
+    task.userId = updateBody.userId;
+    task.boardId = updateBody.boardId;
+    task.columnId = updateBody.columnId;
+    return task
+  }
+  return undefined
 };
 /**
   * Delete task
@@ -168,8 +180,38 @@ const updateTask = (id: string, updateBody: ITaskUpdatedBody) => {
   * @param { String } board's id
   * @returns { Promise<Task[]> } Returns tasks without deleted task
   */
-const deleteTask = async (taskId: string, boardId: string) =>
-  TASKS.splice(TASKS.findIndex(element => element.id !== taskId && element.boardId !== boardId))
+const deleteTask = async (taskId: string, boardId: string) => {
+  const index = TASKS.findIndex(
+    (task) => task.boardId === boardId && task.id === taskId
+  );
+  if (index < 0) {
+    return null;
+  }
+  TASKS.splice(index, 1);
+  return true
+}
+
+const deleteUserTasks = async (userId: string) => {
+  TASKS.map((task) => {
+    const copyTask = task;
+    if (copyTask.userId === userId) {
+      copyTask.userId = null;
+    }
+    return copyTask;
+  });
+  return true;
+}
+
+const deleteBoardTasks = async (boardId: string) => {
+  TASKS.map((task) => {
+    const copyTask = task;
+    if (copyTask.boardId === boardId) {
+      copyTask.boardId = null;
+    }
+    return copyTask;
+  });
+  return true;
+}
 
 export {
   getAllUsers,
@@ -186,5 +228,7 @@ export {
   createTask,
   getTask,
   updateTask,
-  deleteTask
+  deleteTask,
+  deleteUserTasks,
+  deleteBoardTasks,
 };

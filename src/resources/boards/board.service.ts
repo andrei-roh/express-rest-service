@@ -4,6 +4,7 @@ import {
   get as getBoardById,
   update as updateBoard,
   delBoard as deleteBoard,
+  delTasks as deleteBoardTasks,
 } from './board.memory.repository';
 import { IBoardUpdatedBody } from './board.types';
 /**
@@ -36,6 +37,8 @@ const update = (id: string, body: IBoardUpdatedBody) => updateBoard(id, body);
   * @param { String } board's id
   * @returns { Promise<Board[]> } Returns boards without deleted board and tasks without tasks of deleted board
   */
-const del = (id: string) => deleteBoard(id);
+const delBoard = (id: string) => deleteBoard(id);
 
-export const boardsService = { getAll, create, get, update, del };
+const delTasks = (id: string) => deleteBoardTasks(id);
+
+export const boardsService = { getAll, create, get, update, delBoard, delTasks };

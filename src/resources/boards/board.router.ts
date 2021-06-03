@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route('/').get(async (_req, res) => {
   const boards = await boardsService.getAll();
-  res.status(boards ? 200 : 400).json(boards);
+  res.status(boards ? 200 : 404).json(boards);
 });
 
 router.route('/').post(async (req, res) => {
@@ -21,7 +21,7 @@ router.route('/').post(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   try {
     const board = await boardsService.get(req.params.id);
-    res.status(board ? 200 : 400).json(board);
+    res.status(board ? 200 : 404).json(board);
   } catch(e) {
     res.status(404).send(e.message);
   }
@@ -33,12 +33,10 @@ router.route('/:id').put(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
-  try {
-    await boardsService.del(req.params.id);
-    res.status(204).send('Board has been deleted');
-  } catch (e) {
-    res.status(404).send('Could not find board');
-  }
+  const tasks = await boardsService.delTasks(req.params.id);
+  const board = await boardsService.delBoard(req.params.id);
+  res.status(board && tasks ? 204 : 404).send('Board has been deleted');
+
 });
 
 export { router };

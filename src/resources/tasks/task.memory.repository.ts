@@ -12,7 +12,7 @@ import {
   * @param { String } board's id
   * @returns { Promise<Task[]> } Returns board's tasks
   */
-const getAll = async (boardId: string) => getAllTasks(boardId);
+const getAll = async () => getAllTasks();
 /**
   * Create task
   * @params { CreatedTaskBody } (title, order, description, userId, boardId) - information about new Task
@@ -38,8 +38,8 @@ const get = async (taskId: string, boardId: string) => {
   * @param { UpdatedTaskBody } changed task's body
   * @returns { Promise<Task[]|undefined> } Returns updated task
   */
-const update = async (id: string, body: ITaskUpdatedBody) => {
-  const task = updateTask(id, body);
+const update = async (id: string, boardId: string, body: ITaskUpdatedBody) => {
+  const task = updateTask(id, boardId, body);
   if (!task) {
     throw new Error(`Task with id: ${id} was not found!`);
   }
