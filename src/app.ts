@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
+import { router as logger } from './middlewares/logging';
 
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
@@ -22,6 +23,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.use('/', logger);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
