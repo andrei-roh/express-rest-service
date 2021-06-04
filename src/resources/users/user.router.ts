@@ -3,7 +3,7 @@ import { User } from './user.model';
 import { usersService } from './user.service';
 import { StatusCode, Messages } from '../../common/statusCodes';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.route('/').get(async (_req, res) => {
   const users = await usersService.getAll();

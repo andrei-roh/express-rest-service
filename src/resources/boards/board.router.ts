@@ -3,7 +3,7 @@ import { Board } from './board.model';
 import { boardsService } from './board.service';
 import { StatusCode, Messages } from '../../common/statusCodes';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.route('/').get(async (_req, res) => {
   const boards = await boardsService.getAll();
