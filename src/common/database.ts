@@ -16,7 +16,7 @@ const createUser = async (user: IUserUpdatedBody): Promise<IUser> => {
 const getUser = async (id: string): Promise<IUser | undefined> =>
   USERS.filter(user => user.id === id)[0];
 const updateUser = async (id: string, updateBody: IUserUpdatedBody): Promise<IUser | undefined> => {
-  const user = USERS.filter(user => user.id === id)[0];
+  const user = USERS.filter(element => element.id === id)[0];
   if(user) {
     user.name = updateBody.name;
     user.login = updateBody.login;
@@ -45,7 +45,7 @@ const createBoard = async (board: IBoardUpdatedBody): Promise<IBoard> => {
 const getBoard = async (id: string): Promise<IBoard | undefined> =>
   BOARDS.filter(board => board.id === id)[0];
 const updateBoard = async (id: string, updateBody: IBoardUpdatedBody): Promise<IBoard | undefined> => {
-  const board = BOARDS.filter(board => board.id === id)[0];
+  const board = BOARDS.filter(element => element.id === id)[0];
   if (board) {
     board.title = updateBody.title;
     board.columns = updateBody.columns;
@@ -73,7 +73,7 @@ const getTask = async (taskId: string, boardId: string) => TASKS.find(
   task => task.id === taskId && task.boardId === boardId
 );
 const updateTask = (id: string, boardId: string, updateBody: ITaskUpdatedBody) => {
-  const task = TASKS.filter(task => task.id === id && task.boardId === boardId)[0];
+  const task = TASKS.filter(element => element.id === id && element.boardId === boardId)[0];
   if (task) {
     task.title = updateBody.title;
     task.order = updateBody.order;

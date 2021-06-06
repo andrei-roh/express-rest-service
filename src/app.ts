@@ -4,6 +4,7 @@ import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
 import { router as logger } from './middlewares/logging';
 import { errorHandler } from './middlewares/errorsHandling';
+import { uncaughtExceptionsHandler, unhandledRejectionsHandler } from './middlewares/uncaughtHandling';
 
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
@@ -11,6 +12,14 @@ const YAML = require('yamljs');
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+
+process.on('uncaughtException', (err) => {
+  uncaughtExceptionsHandler(err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  unhandledRejectionsHandler(reason, promise);
+});
 
 app.use(express.json());
 
