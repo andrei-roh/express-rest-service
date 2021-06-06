@@ -4,12 +4,12 @@ import fs from 'fs';
 let listPointNumber = 1;
 const writeErrorStream = fs.createWriteStream('./errorsLog.txt');
 
-function errorHandler (
+const errorHandler = (
   err: Error,
   _req: Request,
   res: Response,
   next: NextFunction,
-) {
+) => {
   const { statusCode } = res;
   const { name, message, stack } = err;
 

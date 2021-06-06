@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-function uncaughtExceptionsHandler (err: Error) {
+const uncaughtExceptionsHandler = (err: Error) => {
   const { name, message, stack } = err;
   const startTime = new Date();
   const oneConclusion = `
@@ -16,10 +16,10 @@ function uncaughtExceptionsHandler (err: Error) {
 
 let listPointNumber = 1;
 
-function unhandledRejectionsHandler (
+const unhandledRejectionsHandler = (
   reason: {} | null | undefined,
   promise: Promise<any>
-) {
+) => {
   const startTime = new Date();
   const oneConclusion = `
   №                       ${listPointNumber}
