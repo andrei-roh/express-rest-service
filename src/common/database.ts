@@ -17,7 +17,7 @@ const getUser = async (id: string): Promise<IUser | undefined> =>
   USERS.filter(user => user.id === id)[0];
 const updateUser = async (id: string, updateBody: IUserUpdatedBody): Promise<IUser | undefined> => {
   const user = USERS.filter(element => element.id === id)[0];
-  if(user) {
+  if (user) {
     user.name = updateBody.name;
     user.login = updateBody.login;
     user.password = updateBody.password;
