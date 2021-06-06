@@ -41,8 +41,8 @@ const getUser = async (id: string): Promise<IUser | undefined> =>
   * @returns { Promise<User[]|undefined> } Returns updated user or undefined
   */
 const updateUser = async (id: string, updateBody: IUserUpdatedBody): Promise<IUser | undefined> => {
-  const user = USERS.filter(user => user.id === id)[0];
-  if(user) {
+  const user = USERS.filter(element => element.id === id)[0];
+  if (user) {
     user.name = updateBody.name;
     user.login = updateBody.login;
     user.password = updateBody.password;
@@ -101,7 +101,7 @@ const getBoard = async (id: string): Promise<IBoard | undefined> =>
   * @returns { Promise<Board|undefined> } Returns updated board or undefined
   */
 const updateBoard = async (id: string, updateBody: IBoardUpdatedBody): Promise<IBoard | undefined> => {
-  const board = BOARDS.filter(board => board.id === id)[0];
+  const board = BOARDS.filter(element => element.id === id)[0];
   if (board) {
     board.title = updateBody.title;
     board.columns = updateBody.columns;
@@ -161,7 +161,7 @@ const getTask = async (taskId: string, boardId: string) => TASKS.find(
   * @returns { Promise<Task[]|undefined> } Returns updated task
   */
 const updateTask = (id: string, boardId: string, updateBody: ITaskUpdatedBody) => {
-  const task = TASKS.filter(task => task.id === id && task.boardId === boardId)[0];
+  const task = TASKS.filter(element => element.id === id && element.boardId === boardId)[0];
   if (task) {
     task.title = updateBody.title;
     task.order = updateBody.order;
