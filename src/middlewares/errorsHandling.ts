@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 
 let listPointNumber = 1;
-const writeErrorStream = fs.createWriteStream('./errorsLog.txt');
+const writeErrorStream = fs.createWriteStream('./logs/errorsLog.txt');
 
 const errorHandler = (
   err: Error,

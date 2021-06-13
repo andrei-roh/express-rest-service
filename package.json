@@ -10,13 +10,12 @@
   "main": "build/server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon",
+    "dev": "nodemon --exitcrash",
     "start": "ts-node src/server.ts",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "docker": "docker run --rm -e POSTGRES_USER=process.env.POSTGRES_USER -e POSTGRES_PASSWORD=process.env.POSTGRES_PASSWORD -e POSTGRES_DB=process.env.POSTGRES_DB -p process.env.DB_PORT:process.env.DB_PORT express-rest-service"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
   "keywords": [
     "rs",

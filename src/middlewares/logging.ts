@@ -5,7 +5,7 @@ import fs from 'fs';
 const router = express.Router({ mergeParams: true });
 
 let listPointNumber = 1;
-const writeStream = fs.createWriteStream('./log.txt');
+const writeStream = fs.createWriteStream('./logs/log.txt');
 
 router.use((req, res, next) => {
   const startTime = new Date();

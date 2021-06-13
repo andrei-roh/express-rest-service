@@ -1,6 +1,3 @@
 node_modules
 build
-log.txt
-errorsLog.txt
-uncaughtExceptionsLog.txt
-unhandledRejectionsLog.txt
+logs

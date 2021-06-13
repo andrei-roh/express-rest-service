@@ -1,7 +1,7 @@
 FROM node:14.17-alpine
-WORKDIR /usr/app
+WORKDIR /user/app
 COPY package.json .
 RUN npm install
 COPY . .
 EXPOSE ${PORT}
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
