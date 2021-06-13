@@ -1,17 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ITaskDataFromRequest } from './task.types';
 
-/**
- * Create task's class.
- * @param { Object } task - Task's information
- * @param { String } task.id - Task's id. Create with uuid version 4
- * @param { String } task.title - Task's title
- * @param { Number } task.order - Task's order
- * @param { String } task.description - Task's description
- * @param { String|null } task.userId - Task's user id
- * @param { String|null } task.boardId - Task's board id
- * @param { String|null } task.columnId - Task's column id
- */
 class Task {
   id: string;
 

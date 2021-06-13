@@ -5,14 +5,6 @@ import {
   IUser,
 } from './user.types';
 
-/**
-  * Create user's class.
-  * @typedef { Object } user - User's information
-  * @param { String } user.id - User's id. Create with uuid version 4
-  * @param { String } user.name - User's name
-  * @param { String } user.login - User's login
-  * @param { String } user.password - User's password
-  */
 class User {
 
   id: string;
