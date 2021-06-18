@@ -32,7 +32,10 @@ router.route('/').post(async (req: Request<IRequestParams>, res) => {
 router.route('/:taskId').get(async (req: Request<IRequestParams>, res) => {
   try {
     const task = await tasksService.get(req.params.taskId, req.params.boardId);
-    res.status(task ? StatusCode.OK : StatusCode.NOT_FOUND).json(task);
+    if (!task) {
+      res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
+    }
+    res.status(StatusCode.OK).json(task);
   } catch {
     res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
   }
@@ -55,13 +58,13 @@ router.route('/:id').put(async (req: Request<IRequestParams>, res) => {
 
 router.route('/:id').delete(async (req: Request<IRequestParams>, res) => {
   try {
-    await tasksService.del(req.params.id, req.params.boardId);
+    await tasksService.delTask(req.params.id, req.params.boardId);
     res.status(StatusCode.DELETED).send(Messages.TASK_DEL);
   } catch (e) {
     res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
   }
-  res.status(tasksService.del(req.params.id, req.params.boardId)
-    ? StatusCode.DELETED 
+  res.status(tasksService.delTask(req.params.id, req.params.boardId)
+    ? StatusCode.DELETED
     : StatusCode.NOT_FOUND).end()
 });
 

@@ -1,43 +1,48 @@
-import {
-  getAllUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
-  deleteUserTasks,
- } from '../../common/database';
-import { IUserUpdatedBody } from './user.types';
-import { Messages } from '../../common/statusCodes';
+import { IUserUpdatedBody, IUser } from './user.types';
+import { USERS, TASKS } from '../../common/data';
+import { User } from './user.model';
 
-const getAll = async () => getAllUsers();
-const create = async (user: IUserUpdatedBody) => createUser(user);
-const get = async (id: string) => {
-  const user = await getUser(id);
-  if (!user) {
-    throw new Error(Messages.NOT_FOUND);
-  }
-  return user
+const getAll = async (): Promise<IUser[] | []> => USERS;
+
+const create = async (user: IUserUpdatedBody): Promise<IUser> => {
+  const { name, login, password } = user;
+  const createdUser = new User({ name, login, password });
+  USERS.push(createdUser);
+  return createdUser
 };
-const update = async (id: string, body: IUserUpdatedBody) => {
-  const user = updateUser(id, body);
-  if (!user) {
-    throw new Error(Messages.NOT_FOUND);
+
+const get = async (id: string): Promise<IUser | undefined> =>
+  USERS.filter(user => user.id === id)[0];
+
+const update = async (id: string, updateBody: IUserUpdatedBody): Promise<IUser | undefined> => {
+  const user = USERS.filter(element => element.id === id)[0];
+  if (user) {
+    user.name = updateBody.name;
+    user.login = updateBody.login;
+    user.password = updateBody.password;
+    return user
   }
-  return user
+  return undefined
 };
+
 const delUser = async (id: string) => {
-  const user = await deleteUser(id);
-  if (!user) {
-    throw new Error(Messages.NOT_FOUND);
+  const index = USERS.findIndex((user) => user.id === id);
+  if (index < 0) {
+    return null;
   }
-  return user
+  USERS.splice(index, 1);
+  return true;
 };
-const delTasks = async (id: string) => {
-  const tasks = await deleteUserTasks(id);
-  if (!tasks) {
-    throw new Error(Messages.NOT_FOUND);
-  }
-  return tasks
+
+const delTasks = async (userId: string) => {
+  TASKS.map((task) => {
+    const copyTask = task;
+    if (copyTask.userId === userId) {
+      copyTask.userId = null;
+    }
+    return copyTask;
+  });
+  return true;
 };
 
 export { getAll, create, get, update, delUser, delTasks };

@@ -24,7 +24,10 @@ router.route('/').post(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   try {
     const user = await usersService.get(req.params.id);
-    res.status(user ? StatusCode.OK : StatusCode.BAD_REQUEST).json(User.toResponse(user));
+    if (user) {
+      res.status(StatusCode.OK).json(User.toResponse(user));
+    }
+    res.status(StatusCode.BAD_REQUEST).send(Messages.BAD_REQUEST);
   } catch {
     res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
   }
