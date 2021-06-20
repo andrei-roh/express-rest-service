@@ -1,7 +1,7 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import { QueryRunner } from 'typeorm';
 
-class InitMigration1624190802281 implements MigrationInterface {
-  async up(queryRunner: QueryRunner): Promise<void> {
+class InitMigration1624190802281 {
+  static async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE TABLE "user" (
       "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
       "name" VARCHAR(100) NOT NULL,
@@ -53,7 +53,7 @@ class InitMigration1624190802281 implements MigrationInterface {
     `);
   }
 
-  async down(queryRunner: QueryRunner): Promise<void> {
+  static async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`ALTER TABLE "task"
       DROP CONSTRAINT "FK_users_tasks"
     `);

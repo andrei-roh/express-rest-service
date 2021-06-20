@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { IBoard } from './board.types';
-import { BoardColumn } from './column.model';
+// import { BoardColumn } from './column.model';
 import { IColumn } from './column.types';
 
 @Entity()
@@ -12,11 +12,11 @@ class Board implements IBoard {
   @Column({ length: 255 })
   title: string;
 
-  @OneToMany(
-    () => BoardColumn,
-    column => column.board,
-    { onDelete: 'CASCADE', cascade: true, eager: true }
-  )
+  // @OneToMany(
+  //   () => BoardColumn,
+  //   column => column.board,
+  //   { onDelete: 'CASCADE', cascade: true, eager: true }
+  // )
   columns!: IColumn[];
 
   constructor({ id = uuidv4(), title = '', columns }: Partial<IBoard> = {}) {
