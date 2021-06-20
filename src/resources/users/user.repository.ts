@@ -6,9 +6,9 @@ const repository = getConnectionToDatabase()!.getRepository(User);
 
 export const getAll = async () => repository.find();
 
-export const create = async (user: IUser) => repository.save(user);
-
 export const get = async (id: string) => repository.findOne(id);
+
+export const create = async (user: IUser) => repository.save(user);
 
 export const update = async (id: string, updateBody: Partial<IUser>) => {
   await repository.update(id, updateBody);
