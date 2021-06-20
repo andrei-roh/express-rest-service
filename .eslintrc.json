@@ -41,10 +41,7 @@
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
-    "no-undef": "off",
-    "no-unused-vars": "off",
-    "import/no-cycle": "off",
-    "class-methods-use-this": "off",
+    "class-methods-use-this": ["error", { "exceptMethods": ["up", "down"]}],
     "node/no-missing-import": [
       "error",
       { "tryExtensions": [".js", ".ts", ".json"] }
