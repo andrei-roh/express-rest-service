@@ -1,22 +1,30 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IBoardUpdatedBody } from './board.types';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { IBoard } from './board.types';
+import { BoardColumn } from './column.model';
 import { IColumn } from './column.types';
 
-class Board {
-
+@Entity()
+class Board implements IBoard {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ length: 255 })
   title: string;
 
-  columns: Array<IColumn>;
+  @OneToMany(
+    () => BoardColumn,
+    column => column.board,
+    { onDelete: 'CASCADE', cascade: true, eager: true }
+  )
+  columns!: IColumn[];
 
-  constructor({
-    title = 'DEFAULT BOARD TITLE',
-    columns = [],
-  }: IBoardUpdatedBody) {
-    this.id = uuidv4();
+  constructor({ id = uuidv4(), title = '', columns }: Partial<IBoard> = {}) {
+    this.id = id;
     this.title = title;
-    this.columns = columns;
+    if (columns) {
+      this.columns = columns;
+    }
   }
 }
 

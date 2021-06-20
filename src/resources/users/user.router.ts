@@ -1,6 +1,6 @@
 import express from 'express';
 import { User } from './user.model';
-import { usersService } from './user.service';
+import * as usersService from './user.service';
 import { StatusCode, Messages } from '../../common/statusCodes';
 
 const router = express.Router({ mergeParams: true });
@@ -23,7 +23,7 @@ router.route('/').post(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   try {
-    const user = await usersService.get(req.params.id);
+    const user = await usersService.getUser(req.params.id);
     if (user) {
       res.status(StatusCode.OK).json(User.toResponse(user));
     }
@@ -47,9 +47,8 @@ router.route('/:id').put(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
-  const user = await usersService.delUser(req.params.id);
-  const tasks = await usersService.delTasks(req.params.id);
-  res.status(user && tasks ? StatusCode.DELETED : StatusCode.BAD_REQUEST).end()
+  const user = await usersService.deleteUser(req.params.id);
+  res.status(user ? StatusCode.DELETED : StatusCode.BAD_REQUEST).end()
 });
 
 export { router };

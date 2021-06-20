@@ -1,9 +1,7 @@
-interface IColumnDataFromRequestBody {
-  title: string ;
-  order: number ;
- }
- interface IColumn extends IColumnDataFromRequestBody {
-   id: string;
- }
+interface IColumn {
+  id: string;
+  title: string;
+  order: number;
+}
 
- export { IColumn, IColumnDataFromRequestBody };
+ export { IColumn };

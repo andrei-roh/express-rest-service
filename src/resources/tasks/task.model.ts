@@ -1,36 +1,60 @@
-import { v4 as uuidv4 } from 'uuid';
-import { ITaskDataFromRequest } from './task.types';
+import { v4 as uuid } from 'uuid';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { ITask } from './task.types';
+import { User } from '../../resources/users/user.model';
+import { Board } from '../../resources/boards/board.model';
+import { BoardColumn } from '../../resources/boards/column.model';
 
-class Task {
+ @Entity()
+class Task implements ITask {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ length: 255 })
   title: string;
 
+  @Column('integer')
   order: number;
 
+  @Column({ length: 255 })
   description: string;
 
-  userId: string | null;
+  @ManyToOne(() => Board, { onDelete: 'CASCADE' })
+  board!: Board;
 
-  boardId: string | null;
+  @Column()
+  boardId: string;
 
+  @ManyToOne(() => BoardColumn, { onDelete: 'SET NULL' })
+  column!: BoardColumn;
+
+  @Column({ nullable: true })
   columnId: string | null;
 
-  constructor({
-    title = 'DEFAULT TASK TITLE',
-    order = 0,
-    description = 'DEFAULT TASK DESCRIPTION',
-    userId = null,
-    boardId = null,
-    columnId = null
-  }: ITaskDataFromRequest) {
-    this.id = uuidv4();
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
+  user!: User;
+
+  @Column({ nullable: true })
+  userId: string | null;
+
+  constructor(
+    boardId: string,
+    {
+      id = uuid(),
+      title = '',
+      order = 0,
+      description = '',
+      columnId = null,
+      userId = null,
+    }: Partial<ITask> = {}
+  ) {
+    this.id = id;
     this.title = title;
     this.order = order;
     this.description = description;
-    this.userId = userId;
     this.boardId = boardId;
     this.columnId = columnId;
+    this.userId = userId;
   }
 }
 

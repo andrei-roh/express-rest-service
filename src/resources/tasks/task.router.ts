@@ -1,6 +1,6 @@
 import express, { Request } from 'express';
 import { Task } from './task.model';
-import { tasksService } from './task.service';
+import * as tasksService from './task.service';
 import { StatusCode, Messages } from '../../common/statusCodes';
 
 interface IRequestParams {
@@ -11,27 +11,15 @@ interface IRequestParams {
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/').get(async (_req, res) => {
-  const tasks = await tasksService.getAll();
+router.route('/').get(async (req: Request<IRequestParams>, res) => {
+  const { boardId } = req.params;
+  const tasks = await tasksService.getAll(boardId);
   res.status(tasks ? StatusCode.OK : StatusCode.NOT_FOUND).json(tasks);
-});
-
-router.route('/').post(async (req: Request<IRequestParams>, res) => {
-  const task = await tasksService.create(new Task({
-      title: req.body.title,
-      order: req.body.order,
-      description: req.body.description,
-      userId: req.body.userId,
-      boardId: req.params.boardId,
-      columnId: null
-    })
-  );
-  res.status(task ? StatusCode.CREATED : StatusCode.BAD_REQUEST).json(task);
 });
 
 router.route('/:taskId').get(async (req: Request<IRequestParams>, res) => {
   try {
-    const task = await tasksService.get(req.params.taskId, req.params.boardId);
+    const task = await tasksService.getTask(req.params.taskId, req.params.boardId);
     if (!task) {
       res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
     }
@@ -39,6 +27,12 @@ router.route('/:taskId').get(async (req: Request<IRequestParams>, res) => {
   } catch {
     res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
   }
+});
+
+router.route('/').post(async (req: Request<IRequestParams>, res) => {
+  const { boardId } = req.params;
+  const task = await tasksService.create(new Task(boardId!, req.body));
+  res.status(task ? StatusCode.CREATED : StatusCode.BAD_REQUEST).json(task);
 });
 
 router.route('/:id').put(async (req: Request<IRequestParams>, res) => {
@@ -58,12 +52,12 @@ router.route('/:id').put(async (req: Request<IRequestParams>, res) => {
 
 router.route('/:id').delete(async (req: Request<IRequestParams>, res) => {
   try {
-    await tasksService.delTask(req.params.id, req.params.boardId);
+    await tasksService.deleteTask(req.params.id);
     res.status(StatusCode.DELETED).send(Messages.TASK_DEL);
   } catch (e) {
     res.status(StatusCode.NOT_FOUND).send(Messages.NOT_FOUND);
   }
-  res.status(tasksService.delTask(req.params.id, req.params.boardId)
+  res.status(tasksService.deleteTask(req.params.id)
     ? StatusCode.DELETED
     : StatusCode.NOT_FOUND).end()
 });

@@ -1,11 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { router as userRouter } from './resources/users/user.router';
-import { router as boardRouter } from './resources/boards/board.router';
-import { router as taskRouter } from './resources/tasks/task.router';
+import { router as boardRouter} from './resources/boards/board.router';
+import {router as taskRouter } from './resources/tasks/task.router';
 import { router as logger } from './middlewares/logging';
 import { errorHandler } from './middlewares/errorsHandling';
 import { uncaughtExceptionsHandler, unhandledRejectionsHandler } from './middlewares/uncaughtHandling';
-import { connectionToDatabase } from './common/database';
 
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
@@ -26,14 +25,12 @@ app.use(express.json());
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-connectionToDatabase().then(() => {
-  app.use('/', (req: Request, res: Response, next: NextFunction) => {
-    if (req.originalUrl === '/') {
-      res.send('Service is running!');
-      return;
-    }
-    next();
-  })
+app.use('/', (req: Request, res: Response, next: NextFunction) => {
+  if (req.originalUrl === '/') {
+    res.send('Service is running!');
+    return;
+  }
+  next();
 });
 
 app.use('/', logger);

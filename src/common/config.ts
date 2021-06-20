@@ -1,25 +1,16 @@
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '../../.env'), });
 
-const { PORT } = process.env ?? 4000;
-const {
+export const {
+  PORT,
   NODE_ENV,
   JWT_SECRET_KEY,
-  AUTH_MODE,
-  POSTGRES_PORT,
+  POSTGRES_DBHOST,
   POSTGRES_DB,
   POSTGRES_USER,
   POSTGRES_PASSWORD,
 } = process.env;
-
-export {
-  PORT,
-  NODE_ENV,
-  JWT_SECRET_KEY,
-  AUTH_MODE,
-  POSTGRES_PORT,
-  POSTGRES_DB,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-};
+export const POSTGRES_PORT = Number(process.env['POSTGRES_PORT']);
+export const AUTH_MODE = process.env['AUTH_MODE'] === 'true';
