@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nodejs:
+    image: opochtli/nodejs
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    env_file: .env
+    environment:
+      - PORT=${PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./logs:/user/app/logs
+      - ./src:/user/app/src
+    networks:
+      - backend
+    restart: always
+  postgres:
+    image: opochtli/postgres
+    build: ./database/
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    env_file: .env
+    environment:
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA="/var/lib/postgresql/data"
+    volumes:
+      - './postgres:/var/lib/postgresql/data'
+    networks:
+      - backend
+    restart: always
+
+networks:
+  backend:
+    driver: bridge

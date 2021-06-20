@@ -10,7 +10,7 @@ const uncaughtExceptionsHandler = (err: Error) => {
   process time:     ${startTime}
   error stack:      ${stack}\n`;
   console.error(oneConclusion);
-  fs.writeFileSync('./uncaughtExceptionsLog.txt', oneConclusion);
+  fs.writeFileSync('./logs/uncaughtExceptionsLog.txt', oneConclusion);
   process.exit(1);
 }
 
@@ -28,7 +28,7 @@ const unhandledRejectionsHandler = (
   reason:                 ${reason}\n`;
   listPointNumber += 1;
   console.warn(oneConclusion);
-  fs.appendFileSync('./unhandledRejectionsLog.txt', oneConclusion);
+  fs.appendFileSync('./logs/unhandledRejectionsLog.txt', oneConclusion);
 }
 
 export { uncaughtExceptionsHandler, unhandledRejectionsHandler };

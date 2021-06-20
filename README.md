@@ -70,3 +70,37 @@ npm run lint
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+### Start Docker app
+
+## Get build images
+
+```
+docker-compose build
+```
+
+## Start and attach containers
+
+```
+docker-compose up
+```
+
+## Scan images
+
+```
+docker scan image-name
+```
+
+## Push built images to Docker Hub
+
+```
+docker-compose push
+```
+
+### Stop Docker app
+
+## Stop and remove containers
+
+```
+docker-compose down
+```

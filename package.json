@@ -10,7 +10,7 @@
   "main": "build/server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon",
+    "dev": "nodemon --exitcrash",
     "start": "ts-node src/server.ts",
     "doc": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "lint": "eslint --ext .js,.ts --fix src/",
@@ -50,6 +50,7 @@
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
     "express": "4.17.1",
+    "sequelize": "^6.6.2",
     "swagger-ui-express": "4.1.6",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"
