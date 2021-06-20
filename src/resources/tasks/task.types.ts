@@ -6,6 +6,6 @@ interface ITask {
   boardId: string;
   columnId: string | null;
   userId: string | null;
-};
+}
 
 export { ITask };

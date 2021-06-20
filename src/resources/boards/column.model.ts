@@ -16,10 +16,10 @@ class BoardColumn implements IColumn {
   order: number;
 
   @ManyToOne(() => Board, { onDelete: 'CASCADE' })
-  board!: IBoard;
+  board: IBoard | undefined;
 
   @Column()
-  boardId: string = '';
+  boardId = '';
 
   constructor({ id = uuid(), title = '', order = 0 }: Partial<IColumn> = {}) {
     this.id = id;

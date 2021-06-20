@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { ITask } from './task.types';
-import { User } from '../../resources/users/user.model';
-import { Board } from '../../resources/boards/board.model';
-import { BoardColumn } from '../../resources/boards/column.model';
+import { User } from "../users/user.model";
+import { Board } from "../boards/board.model";
+import { BoardColumn } from "../boards/column.model";
 
- @Entity()
+@Entity()
 class Task implements ITask {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -32,7 +32,7 @@ class Task implements ITask {
   columnId: string | null;
 
   @ManyToOne(() => User, { onDelete: 'SET NULL' })
-  user!: User;
+  user: User | undefined;
 
   @Column({ nullable: true })
   userId: string | null;
