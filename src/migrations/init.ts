@@ -54,18 +54,10 @@ class InitMigration1624190802281 {
   }
 
   static async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "task"
-      DROP CONSTRAINT "FK_users_tasks"
-    `);
-    await queryRunner.query(`ALTER TABLE "task"
-      DROP CONSTRAINT "FK_board_columns_tasks"
-    `);
-    await queryRunner.query(`ALTER TABLE "task"
-      DROP CONSTRAINT "FK_boards_tasks"
-    `);
-    await queryRunner.query(`ALTER TABLE "board_column"
-      DROP CONSTRAINT "FK_boards_board_columns"
-    `);
+    await queryRunner.query(`ALTER TABLE "task" DROP CONSTRAINT "FK_users_tasks"`);
+    await queryRunner.query(`ALTER TABLE "task" DROP CONSTRAINT "FK_board_columns_tasks"`);
+    await queryRunner.query(`ALTER TABLE "task" DROP CONSTRAINT "FK_boards_tasks"`);
+    // await queryRunner.query(`ALTER TABLE "board_column" DROP CONSTRAINT "FK_boards_board_columns"`);
     await queryRunner.query('DROP TABLE "task"');
     await queryRunner.query('DROP TABLE "user"');
     await queryRunner.query('DROP TABLE "board"');

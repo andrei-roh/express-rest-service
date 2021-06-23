@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IUser } from './user.types';
+import { IUser } from '../types';
+
 
 type IUserForReponse = Omit<IUser, 'password'>
 

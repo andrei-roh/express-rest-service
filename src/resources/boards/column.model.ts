@@ -1,8 +1,7 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import type { IBoard } from './board.types';
+import { IColumn, IBoard } from '../types';
 import { Board } from './board.model';
-import { IColumn } from './column.types';
 
 @Entity()
 class BoardColumn implements IColumn {
@@ -16,12 +15,12 @@ class BoardColumn implements IColumn {
   order: number;
 
   @ManyToOne(() => Board, { onDelete: 'CASCADE' })
-  board: IBoard | undefined;
+  board!: IBoard;
 
   @Column()
-  boardId = '';
+  boardId: string = '';
 
-  constructor({ id = uuid(), title = '', order = 0 }: Partial<IColumn> = {}) {
+  constructor({ id = uuidv4(), title = '', order = 0 }: Partial<IColumn> = {}) {
     this.id = id;
     this.title = title;
     this.order = order;

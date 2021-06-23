@@ -1,5 +1,5 @@
 import * as repository from './user.repository';
-import { IUser } from './user.types';
+import { IUser } from '../types';
 
 export const getAll = async (): Promise<IUser[]> => repository.getAll();
 export const getUser = async (id: string): Promise<IUser | undefined> => repository.get(id);

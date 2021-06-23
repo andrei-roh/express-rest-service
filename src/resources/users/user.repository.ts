@@ -1,6 +1,6 @@
 import { getConnectionToDatabase } from '../../common/database';
 import { User } from './user.model';
-import { IUser } from './user.types';
+import { IUser } from '../types';
 
 const repository = getConnectionToDatabase()!.getRepository(User);
 
