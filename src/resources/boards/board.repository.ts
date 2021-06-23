@@ -1,5 +1,5 @@
 import { getConnectionToDatabase } from '../../common/database';
-import { Board } from './board.model';
+import Board from './board.model';
 import { IBoard } from '../types';
 
 const repository = getConnectionToDatabase()!.getRepository(Board);

@@ -9,12 +9,12 @@ class InitMigration1624190802281 {
       "password" VARCHAR(100) NOT NULL,
       CONSTRAINT "PK_user" PRIMARY KEY ("id")
     )`);
-    await queryRunner.query(`CREATE TABLE "board_column" (
+    await queryRunner.query(`CREATE TABLE "column" (
       "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
       "title" VARCHAR(255) NOT NULL,
       "order" INTEGER NOT NULL,
       "boardId" UUID NOT NULL,
-      CONSTRAINT "PK_board_column" PRIMARY KEY ("id")
+      CONSTRAINT "PK_column" PRIMARY KEY ("id")
     )`);
     await queryRunner.query(`CREATE TABLE "board" (
       "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
@@ -31,37 +31,13 @@ class InitMigration1624190802281 {
       "userId" UUID,
       CONSTRAINT "PK_task" PRIMARY KEY ("id")
     )`);
-    await queryRunner.query(`ALTER TABLE "board_column"
-      ADD CONSTRAINT "FK_boards_board_columns"
-      FOREIGN KEY ("boardId") REFERENCES "board"("id")
-      ON DELETE CASCADE ON UPDATE NO ACTION
-    `);
-    await queryRunner.query(`ALTER TABLE "task"
-      ADD CONSTRAINT "FK_boards_tasks"
-      FOREIGN KEY ("boardId") REFERENCES "board"("id")
-      ON DELETE CASCADE ON UPDATE NO ACTION
-    `);
-    await queryRunner.query(`ALTER TABLE "task"
-      ADD CONSTRAINT "FK_board_columns_tasks"
-      FOREIGN KEY ("columnId") REFERENCES "board_column"("id")
-      ON DELETE SET NULL ON UPDATE NO ACTION
-    `);
-    await queryRunner.query(`ALTER TABLE "task"
-      ADD CONSTRAINT "FK_users_tasks"
-      FOREIGN KEY ("userId") REFERENCES "user"("id")
-      ON DELETE SET NULL ON UPDATE NO ACTION
-    `);
   }
 
   static async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`ALTER TABLE "task" DROP CONSTRAINT "FK_users_tasks"`);
-    await queryRunner.query(`ALTER TABLE "task" DROP CONSTRAINT "FK_board_columns_tasks"`);
-    await queryRunner.query(`ALTER TABLE "task" DROP CONSTRAINT "FK_boards_tasks"`);
-    // await queryRunner.query(`ALTER TABLE "board_column" DROP CONSTRAINT "FK_boards_board_columns"`);
     await queryRunner.query('DROP TABLE "task"');
     await queryRunner.query('DROP TABLE "user"');
     await queryRunner.query('DROP TABLE "board"');
-    await queryRunner.query('DROP TABLE "board_column"');
+    await queryRunner.query('DROP TABLE "column"');
   }
 }
 

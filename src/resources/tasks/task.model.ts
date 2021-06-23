@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from "../users/user.model";
-import { Board } from "../boards/board.model";
+import Board from "../boards/board.model";
 import { BoardColumn } from "../boards/column.model";
 import { ITask } from '../types';
 

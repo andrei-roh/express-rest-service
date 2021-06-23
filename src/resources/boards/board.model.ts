@@ -4,7 +4,7 @@ import { IBoard, IColumn } from '../types';
 import { BoardColumn } from './column.model';
 
 @Entity()
-class Board implements IBoard {
+export default class Board implements IBoard {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -16,6 +16,7 @@ class Board implements IBoard {
     column => column.board,
     { onDelete: 'CASCADE', cascade: true, eager: true }
   )
+
   columns!: IColumn[];
 
   constructor({ id = uuidv4(), title = '', columns }: Partial<IBoard> = {}) {
@@ -27,4 +28,4 @@ class Board implements IBoard {
   }
 }
 
-export { Board };
+// export { Board };
