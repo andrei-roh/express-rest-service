@@ -1,4 +1,5 @@
 import express from 'express';
+import bcrypt from 'bcryptjs';
 import { User } from './user.model';
 import * as usersService from './user.service';
 import { coverForFunction } from '../coverForFunction';
@@ -27,7 +28,14 @@ router.route('/:userId').get(
 
 router.route('/').post(
   coverForFunction(async (req, res) => {
-    const user = await usersService.create(new User(req.body));
+    const {name, login, password } = req.body;
+    const hashPassword = await bcrypt.hash(password, 8);
+    const user = await usersService.create(new User({
+        name,
+        login,
+        password: hashPassword
+      })
+    );
     res.status(user ? 201 : 400).json(User.toResponse(user));
   })
 );
