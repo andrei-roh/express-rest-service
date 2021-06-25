@@ -1,17 +1,16 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import config from 'config';
 import * as loginService from './login.service';
 import { coverForFunction } from '../coverForFunction';
-import { JWT_SECRET_KEY } from '../../common/config';
+import { JWT_SECRET_KEY, JWT_TIME } from '../../common/config';
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/login').post(
+router.route('/').post(
   coverForFunction(async (req, res) => {
     const { login, password } = req.body;
-    const user = await loginService.loginUser(login);
+    const user = await loginService.loginUser({ login, password });
     if (!user) {
       res.status(403).json();
     }
@@ -19,7 +18,7 @@ router.route('/login').post(
     if (!isPassValid) {
       res.status(404).json();
     }
-    const token = jwt.sign({ id: user!.id }, config.get(JWT_SECRET_KEY!), { expiresIn: "1h" });
+    const token = jwt.sign({ id: user!.id }, String(JWT_SECRET_KEY), { expiresIn: +JWT_TIME! });
     res.json({ token,
       user: {
         id: user!.id,

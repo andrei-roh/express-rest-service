@@ -27,4 +27,16 @@ interface IUser {
   password: string;
 }
 
-export { IUser, IBoard, IColumn, ITask }
+interface ILogin {
+  login: string;
+  password: string;
+}
+
+interface ILoader {
+  id: string;
+  login: string;
+  issued?: number;
+  expires?: number;
+}
+
+export { IUser, IBoard, IColumn, ITask, ILogin, ILoader }

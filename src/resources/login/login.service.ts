@@ -1,4 +1,4 @@
 import * as repository from './login.repository';
-import { IUser } from '../types';
+import { IUser, ILogin } from '../types';
 
-export const loginUser = async (login: string): Promise<IUser | undefined> => repository.loginUser(login);
+export const loginUser = async (userData: ILogin): Promise<IUser | undefined> => repository.loginUser(userData);
