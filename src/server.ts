@@ -1,6 +1,15 @@
 import { PORT } from './common/config';
-import app from './app';
+import { setConnectionToDatabase } from './common/database';
 
-app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+(async () => {
+  try {
+    await setConnectionToDatabase();
+  } catch (err) {
+    console.log('Failed to connect to DB!', `${err}`)
+    return
+  }
+  const app = await import('./app')
+  app.default.listen(PORT, () =>
+    console.log(`App is running on http://localhost:${PORT}`)
+  );
+})();

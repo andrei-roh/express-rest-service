@@ -1,18 +1,8 @@
-import {
-  getAll as getAllBoards,
-  create as createBoard,
-  get as getBoardById,
-  update as updateBoard,
-  delBoard as deleteBoard,
-  delTasks as deleteBoardTasks,
-} from './board.memory.repository';
-import { IBoardUpdatedBody } from './board.types';
+import * as repository from './board.repository';
+import { IBoard } from './board.types';
 
-const getAll = () => getAllBoards();
-const create = (board: IBoardUpdatedBody) => createBoard(board);
-const get = (id: string) => getBoardById(id);
-const update = (id: string, body: IBoardUpdatedBody) => updateBoard(id, body);
-const delBoard = (id: string) => deleteBoard(id);
-const delTasks = (id: string) => deleteBoardTasks(id);
-
-export const boardsService = { getAll, create, get, update, delBoard, delTasks };
+export const getAll = async (): Promise<Array<IBoard>> => repository.getAll();
+export const getBoard = async (id: string): Promise<IBoard | undefined> => repository.get(id);
+export const create = async (board: IBoard): Promise<IBoard> => repository.create(board);
+export const update = async (id: string, updateBody: Partial<IBoard>): Promise<IBoard> => repository.update(id, updateBody);
+export const deleteBoard = async (id: string): Promise<boolean> => repository.delBoard(id);

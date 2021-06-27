@@ -1,11 +1,9 @@
 import { IColumn } from './column.types';
 
-interface IBoardUpdatedBody {
-  title: string;
-  columns: Array<IColumn>;
-}
-interface IBoard extends IBoardUpdatedBody {
+interface IBoard {
   id: string;
+  title: string;
+  columns: IColumn[];
 }
 
-export { IBoard, IBoardUpdatedBody };
+export { IBoard };

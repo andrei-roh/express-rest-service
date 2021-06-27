@@ -1,0 +1,11 @@
+import { Request, Response, NextFunction, RequestHandler } from 'express';
+
+const coverForFunction = (fn: RequestHandler) => async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await fn(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export { coverForFunction }
