@@ -2,7 +2,9 @@ import express, { Request, Response, NextFunction } from 'express';
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter} from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
+import { router as loginRouter } from './resources/login/login.router';
 import { router as logger } from './middlewares/logging';
+import { router as userValidation } from './middlewares/usersValidation';
 import { errorHandler } from './middlewares/errorsHandling';
 import { uncaughtExceptionsHandler, unhandledRejectionsHandler } from './middlewares/uncaughtHandling';
 
@@ -34,6 +36,8 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use('/', logger);
+app.use('/login', loginRouter);
+app.use(userValidation);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);

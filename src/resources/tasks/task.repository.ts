@@ -1,6 +1,6 @@
 import { getConnectionToDatabase } from '../../common/database';
 import { Task } from './task.model';
-import { ITask } from './task.types';
+import { ITask } from '../types';
 
 const repository = getConnectionToDatabase()!.getRepository(Task);
 

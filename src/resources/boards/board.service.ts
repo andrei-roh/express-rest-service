@@ -1,5 +1,5 @@
 import * as repository from './board.repository';
-import { IBoard } from './board.types';
+import { IBoard } from '../types';
 
 export const getAll = async (): Promise<Array<IBoard>> => repository.getAll();
 export const getBoard = async (id: string): Promise<IBoard | undefined> => repository.get(id);

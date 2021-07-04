@@ -5,7 +5,7 @@ import { setConnectionToDatabase } from './common/database';
   try {
     await setConnectionToDatabase();
   } catch (err) {
-    console.log('Failed to connect to DB!', `${err}`)
+    console.log('Failed to connect database', `${err}`)
     return
   }
   const app = await import('./app')

@@ -18,7 +18,7 @@ let listPointNumber = 1;
 
 const unhandledRejectionsHandler = (
   reason: {} | null | undefined,
-  promise: Promise<any>
+  promise: Promise<Object>
 ) => {
   const startTime = new Date();
   const oneConclusion = `

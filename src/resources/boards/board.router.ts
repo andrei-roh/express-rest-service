@@ -1,5 +1,5 @@
 import express from 'express';
-import { Board } from './board.model';
+import Board from './board.model';
 import * as boardsService from './board.service';
 import { coverForFunction } from '../coverForFunction';
 

@@ -7,8 +7,8 @@ import {
   POSTGRES_PASSWORD,
  } from './config';
 import { User } from '../resources/users/user.model';
-import { Board } from '../resources/boards/board.model';
-import { BoardColumn } from '../resources/boards/column.model';
+import Board from '../resources/boards/board.model';
+import { BoardColumn as Column } from '../resources/boards/column.model';
 import { Task } from '../resources/tasks/task.model';
 import { InitMigration } from '../migrations/init';
 
@@ -24,7 +24,7 @@ export const setConnectionToDatabase = async () => {
       username: POSTGRES_USER,
       password: POSTGRES_PASSWORD,
       database: POSTGRES_DB,
-      entities: [User, Board, BoardColumn, Task],
+      entities: [User, Board, Column, Task],
       migrations: [InitMigration],
       migrationsRun: true,
     });

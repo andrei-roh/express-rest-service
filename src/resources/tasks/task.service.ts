@@ -1,5 +1,5 @@
 import * as repository from './task.repository';
-import { ITask } from './task.types';
+import { ITask } from '../types';
 
 export const getAll = (boardId: string): Promise<ITask[]> => repository.getAll(boardId);
 export const getTask = (boardId: string, taskId: string): Promise<ITask | undefined> =>
