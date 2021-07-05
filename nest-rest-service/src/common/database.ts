@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmModule } from '@nestjs/typeorm';
 import { InitMigration } from '../migrations/init';
+import { User } from '../resources/users/user.model';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -13,7 +14,7 @@ export const setConnectionToDatabase: TypeOrmModuleOptions = {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   synchronize: false,
-  // entities: [User, Board, Column, Task],
+  entities: [User],
   migrations: [InitMigration],
   migrationsRun: true,
   cli: { migrationsDir: 'migration' },
@@ -22,4 +23,4 @@ export const setConnectionToDatabase: TypeOrmModuleOptions = {
 @Module({
   imports: [TypeOrmModule.forRoot(setConnectionToDatabase)],
 })
-export class getConnectionToDatabase { }
+export class getConnectionToDatabase {}
