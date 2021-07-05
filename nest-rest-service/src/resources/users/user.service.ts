@@ -3,12 +3,12 @@ import { DeleteResult } from 'typeorm';
 import { UserCreate } from './user.create';
 import { UserUpdate } from './user.update';
 import { User } from './user.model';
-import { UserRepository } from './user.repository';
+import { UsersRepository } from './user.repository';
 import { getCreateUser, getUpdateUser } from './user.utils';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UsersRepository) { }
 
   async getAll(): Promise<User[]> {
     return await this.userRepository.getAll();

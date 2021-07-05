@@ -6,33 +6,33 @@ import { UserUpdate } from './user.update';
 import { User } from './user.model';
 
 @Injectable()
-export class UserRepository {
+export class UsersRepository {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private usersRepository: Repository<User>,
   ) {}
 
   async getAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.usersRepository.find();
   }
 
   async get(id: string): Promise<User | undefined> {
-    return await this.userRepository.findOne(id);
+    return await this.usersRepository.findOne(id);
   }
 
   async getUserByLogin(login: string): Promise<User | undefined> {
-    return await this.userRepository.findOne({ where: { login: login } });
+    return await this.usersRepository.findOne({ where: { login: login } });
   }
 
-  async save(UserCreate: UserCreate): Promise<User> {
-    return await this.userRepository.save(UserCreate);
+  async save(userCreate: UserCreate): Promise<User> {
+    return await this.usersRepository.save(userCreate);
   }
 
-  async update(UserCreate: UserUpdate): Promise<User> {
-    return await this.userRepository.save(UserCreate);
+  async update(userUpdate: UserUpdate): Promise<User> {
+    return await this.usersRepository.save(userUpdate);
   }
 
   async deleteUser(id: string): Promise<DeleteResult> {
-    return await this.userRepository.delete(id);
+    return await this.usersRepository.delete(id);
   }
 }
