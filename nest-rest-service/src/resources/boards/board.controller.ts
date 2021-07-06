@@ -7,13 +7,19 @@ import {
   Delete,
   Put,
   NotFoundException,
-  ParseUUIDPipe
+  ParseUUIDPipe,
+  UseFilters,
+  UseGuards
 } from '@nestjs/common';
 import { BoardService } from './board.service';
 import { BoardCreate } from './board.create';
 import { BoardUpdate } from './board.update';
+import { Filter } from '../../middlewares/filter';
+import { LoginGuard } from '../login/login.guard';
 
 @Controller('boards')
+@UseFilters(Filter)
+@UseGuards(LoginGuard)
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 

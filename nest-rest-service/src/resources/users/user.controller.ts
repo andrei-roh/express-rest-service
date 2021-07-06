@@ -7,14 +7,20 @@ import {
   Param,
   Delete,
   NotFoundException,
-  ParseUUIDPipe
+  ParseUUIDPipe,
+  UseFilters,
+  UseGuards
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserCreate } from './user.create';
 import { UserUpdate } from './user.update';
 import { User } from './user.model';
+import { Filter } from '../../middlewares/filter';
+import { LoginGuard } from '../login/login.guard';
 
 @Controller('user')
+@UseFilters(Filter)
+@UseGuards(LoginGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

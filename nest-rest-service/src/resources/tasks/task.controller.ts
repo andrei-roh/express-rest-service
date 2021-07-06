@@ -7,14 +7,20 @@ import {
   Delete,
   Put,
   NotFoundException,
-  ParseUUIDPipe
+  ParseUUIDPipe,
+  UseFilters,
+  UseGuards
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { TaskCreate } from './task.create';
 import { TaskUpdate } from './task.update';
 import { Task } from './task.model';
+import { Filter } from '../../middlewares/filter';
+import { LoginGuard } from '../login/login.guard';
 
 @Controller('boards/:id/tasks')
+@UseFilters(Filter)
+@UseGuards(LoginGuard)
 export class TaskController {
   constructor(private readonly taskService: TaskService) { }
 
