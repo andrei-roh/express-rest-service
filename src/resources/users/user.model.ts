@@ -1,39 +1,21 @@
-import { v4 as uuid } from 'uuid';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IUser } from '../types';
-
-type IUserForReponse = Omit<IUser, 'password'>
 
 @Entity()
-class User implements IUser {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 100 })
+  @Column()
   name: string;
 
-  @Column({ length: 100 })
+  @Column()
   login: string;
 
-  @Column({ length: 100 })
+  @Column()
   password: string;
 
-  constructor({
-    id = uuid(),
-    name = 'USER',
-    login = 'user',
-    password = 'P@55w0rd',
-  }: Partial<IUser> = {}) {
-    this.id = id;
-    this.name = name;
-    this.login = login;
-    this.password = password;
-  }
-
-  static toResponse(user: IUser): IUserForReponse {
+  static toResponse(user: User) {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
-
-export { User };

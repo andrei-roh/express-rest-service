@@ -1,30 +1,20 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { IColumn } from '../types';
-import type Board from './board.model';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Board } from './board.model';
 
 @Entity()
-class BoardColumn implements IColumn {
+export class BoardColumn {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 255 })
+  @Column()
   title: string;
 
-  @Column('integer')
+  @Column()
   order: number;
 
-  @ManyToOne('Board', { onDelete: 'CASCADE' })
-  board!: Board;
-
-  @Column()
-  boardId: string = '';
-
-  constructor({ id = uuidv4(), title = '', order = 0 }: Partial<IColumn> = {}) {
-    this.id = id;
-    this.title = title;
-    this.order = order;
-  }
+  @ManyToOne(() => Board, (board) => board.columns, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  board: Board;
 }
-
-export { BoardColumn };

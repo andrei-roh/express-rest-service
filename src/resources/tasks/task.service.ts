@@ -1,10 +1,33 @@
-import * as repository from './task.repository';
-import { ITask } from '../types';
+import { Injectable } from '@nestjs/common';
+import { getUpdateTask } from './task.utils';
+import { DeleteResult } from 'typeorm';
+import { TaskCreate } from './task.create';
+import { TaskUpdate } from './task.update';
+import { Task } from './task.model';
+import { TasksRepository } from './task.repository';
 
-export const getAll = (boardId: string): Promise<ITask[]> => repository.getAll(boardId);
-export const getTask = (boardId: string, taskId: string): Promise<ITask | undefined> =>
-  repository.get(boardId, taskId);
-export const create = (task: ITask): Promise<ITask> => repository.create(task);
-export const update = (boardId: string, taskId: string, data: Partial<ITask>): Promise<ITask> =>
-  repository.update(boardId, taskId, data);
-export const deleteTask = (taskId: string): Promise<boolean> => repository.delTask(taskId);
+@Injectable()
+export class TaskService {
+  constructor(private readonly taskRepository: TasksRepository) {}
+
+  async getAll(): Promise<Task[]> {
+    return await this.taskRepository.getAll();
+  }
+
+  async getTask(id: string): Promise<Task | undefined> {
+    return await this.taskRepository.get(id);
+  }
+
+  async create(TaskCreate: TaskCreate): Promise<Task> {
+    return await this.taskRepository.save(TaskCreate);
+  }
+
+  async update(id: string, TaskUpdate: TaskUpdate): Promise<Task> {
+    const updatedTask = getUpdateTask(id, TaskUpdate)
+    return await this.taskRepository.update(updatedTask);
+  }
+
+  async deleteTask(id: string): Promise<DeleteResult> {
+    return await this.taskRepository.deleteTask(id);
+  }
+}

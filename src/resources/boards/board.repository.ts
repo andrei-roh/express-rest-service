@@ -1,23 +1,34 @@
-import { getConnectionToDatabase } from '../../common/database';
-import Board from './board.model';
-import { IBoard } from '../types';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, DeleteResult } from 'typeorm';
+import { BoardCreate } from './board.create';
+import { BoardUpdate } from './board.update';
+import { Board } from './board.model';
 
-const repository = getConnectionToDatabase()!.getRepository(Board);
+@Injectable()
+export class BoardsRepository {
+  constructor(
+    @InjectRepository(Board)
+    private boardsRepository: Repository<Board>,
+  ) { }
 
-export const getAll = async (): Promise<Array<IBoard>> => repository.find();
+  async getAll(): Promise<Board[]> {
+    return await this.boardsRepository.find();
+  }
 
-export const get = async (id: string): Promise<IBoard | undefined> => repository.findOne(id);
+  async get(id: string): Promise<Board | undefined> {
+    return await this.boardsRepository.findOne(id);
+  }
 
-export const create = async (board: IBoard): Promise<IBoard> => repository.save(board)
+  async save(boardCreate: BoardCreate): Promise<Board> {
+    return await this.boardsRepository.save(boardCreate);
+  }
 
-export const update = async (id: string, updateBody: Partial<IBoard>): Promise<IBoard> => {
-  const { columns, ...otherBody } = updateBody;
-  await repository.update(id, otherBody);
-  const board = await get(id);
-  return board!
+  async update(boardUpdate: BoardUpdate): Promise<Board> {
+    return await this.boardsRepository.save(boardUpdate);
+  }
+
+  async deleteBoard(id: string): Promise<DeleteResult> {
+    return await this.boardsRepository.delete(id);
+  }
 }
-
-export const delBoard = async (id: string): Promise<boolean> => {
-  const res = await repository.delete(id);
-  return !!res.affected
-};

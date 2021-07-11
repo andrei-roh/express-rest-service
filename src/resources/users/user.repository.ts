@@ -1,22 +1,38 @@
-import { getConnectionToDatabase } from '../../common/database';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, DeleteResult } from 'typeorm';
+import { UserCreate } from './user.create';
+import { UserUpdate } from './user.update';
 import { User } from './user.model';
-import { IUser } from '../types';
 
-const repository = getConnectionToDatabase()!.getRepository(User);
+@Injectable()
+export class UsersRepository {
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
-export const getAll = async () => repository.find();
+  async getAll(): Promise<User[]> {
+    return await this.usersRepository.find();
+  }
 
-export const get = async (id: string) => repository.findOne(id);
+  async get(id: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne(id);
+  }
 
-export const create = async (user: IUser) => repository.save(user);
+  async getUserByLogin(login: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne({ where: { login: login } });
+  }
 
-export const update = async (id: string, updateBody: Partial<IUser>) => {
-  await repository.update(id, updateBody);
-  const user = await get(id);
-  return user!
-}
+  async save(userCreate: UserCreate): Promise<User> {
+    return await this.usersRepository.save(userCreate);
+  }
 
-export const delUser = async (id: string) => {
-  const res = await repository.delete(id)
-  return !!res.affected
+  async update(userUpdate: UserUpdate): Promise<User> {
+    return await this.usersRepository.save(userUpdate);
+  }
+
+  async deleteUser(id: string): Promise<DeleteResult> {
+    return await this.usersRepository.delete(id);
+  }
 }

@@ -1,61 +1,42 @@
-import { v4 as uuid } from 'uuid';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from "../users/user.model";
-import Board from "../boards/board.model";
-import { BoardColumn } from "../boards/column.model";
-import { ITask } from '../types';
+import { Board } from 'src/resources/boards/board.model';
+import { User } from 'src/resources/users/user.model';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
-class Task implements ITask {
+export class Task {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 255 })
+  @Column()
   title: string;
 
-  @Column('integer')
+  @Column()
   order: number;
 
-  @Column({ length: 255 })
+  @Column()
   description: string;
 
-  @ManyToOne(() => Board, { onDelete: 'CASCADE' })
-  board!: Board;
-
-  @Column()
-  boardId: string;
-
-  @ManyToOne(() => BoardColumn, { onDelete: 'SET NULL' })
-  column!: BoardColumn;
-
-  @Column({ nullable: true })
-  columnId: string | null;
-
-  @ManyToOne(() => User, { onDelete: 'SET NULL' })
-  user: User | undefined;
-
-  @Column({ nullable: true })
+  @ManyToOne(() => User, {
+    nullable: true,
+    eager: true,
+    onDelete: 'SET NULL',
+  })
   userId: string | null;
 
-  constructor(
-    boardId: string,
-    {
-      id = uuid(),
-      title = '',
-      order = 0,
-      description = '',
-      columnId = null,
-      userId = null,
-    }: Partial<ITask> = {}
-  ) {
-    this.id = id;
-    this.title = title;
-    this.order = order;
-    this.description = description;
-    this.boardId = boardId;
-    this.columnId = columnId;
-    this.userId = userId;
-  }
-}
+  @ManyToOne(() => Board, {
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  boardId: Object;
 
-export { Task };
+  @Column({ nullable: true })
+  columnId: string;
+
+  static toResponse(task: Task) {
+    const { id, title, order, description, userId, columnId } = task;
+    const board = <Board>task.boardId;
+    const boardId = !board ? null : board.id;
+    return { id, title, order, description, userId, boardId, columnId };
+  };
+}

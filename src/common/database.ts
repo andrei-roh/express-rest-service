@@ -1,39 +1,23 @@
-import { Connection, createConnection } from 'typeorm';
-import {
-  POSTGRES_DBHOST,
-  POSTGRES_PORT,
-  POSTGRES_DB,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
- } from './config';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { InitMigration } from '../migrations/init';
 import { User } from '../resources/users/user.model';
-import Board from '../resources/boards/board.model';
+import { Board } from '../resources/boards/board.model';
 import { BoardColumn as Column } from '../resources/boards/column.model';
 import { Task } from '../resources/tasks/task.model';
-import { InitMigration } from '../migrations/init';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 
-let connection: Connection | null = null;
-
-export const setConnectionToDatabase = async () => {
-  try {
-    connection = await createConnection({
-      type: 'postgres',
-      host: POSTGRES_DBHOST,
-      port: POSTGRES_PORT,
-      username: POSTGRES_USER,
-      password: POSTGRES_PASSWORD,
-      database: POSTGRES_DB,
-      entities: [User, Board, Column, Task],
-      migrations: [InitMigration],
-      migrationsRun: true,
-    });
-    console.log(`Database connected`);
-    return connection
-  } catch (err) {
-    console.log(`${err}`);
-  }
-  return connection
+export const setConnectionToDatabase: TypeOrmModuleOptions = {
+  type: 'postgres',
+  host: process.env.POSTGRES_DBHOST,
+  port: +process.env.POSTGRES_PORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  synchronize: false,
+  entities: [User, Board, Column, Task],
+  migrations: [InitMigration],
+  migrationsRun: true,
+  cli: { migrationsDir: 'migration' },
 };
-
-export const getConnectionToDatabase = () => connection;

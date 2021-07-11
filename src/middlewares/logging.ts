@@ -1,34 +1,21 @@
-import express from 'express';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 import { finished } from 'stream';
-import fs from 'fs';
 
-const router = express.Router({ mergeParams: true });
+@Injectable()
+export class Logging implements NestMiddleware {
+  constructor(private logger: Logger) {}
 
-let listPointNumber = 1;
-const writeStream = fs.createWriteStream('./logs/log.txt');
+  use(req: Request, res: Response, next: NextFunction) {
+    const receiptTime = new Date().toLocaleString();
+    const { method, body, query } = req;
+    const url = `http://localhost:4000${req.baseUrl + req.url}`;
 
-router.use((req, res, next) => {
-  const startTime = new Date();
-  const url = `http://localhost:4000${req.baseUrl + req.url}`;
-  const requestBody = JSON.stringify(req.body);
-  const requestParameters = JSON.stringify(req.query);
+    next();
 
-  next();
-
-  finished(res, () => {
-    const { statusCode } = res;
-    const getCurrentTime = Date.now() - (+startTime);
-    const oneConclusion = `
-    №                          ${listPointNumber}
-    url:                       ${url}
-    body:                      ${requestBody}
-    query parameters:          ${requestParameters}
-    process time:              ${getCurrentTime} ms
-    response status code:      ${statusCode}\n`;
-    listPointNumber += 1;
-    console.log(oneConclusion);
-    writeStream.write(oneConclusion);
-  });
-});
-
-export { router };
+    finished(res, () => {
+      const { statusCode } = res;
+      this.logger.log({ method, url, body, query, statusCode, receiptTime });
+    });
+  }
+}

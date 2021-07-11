@@ -41,4 +41,4 @@ class InitMigration1624190802281 {
   }
 }
 
-export { InitMigration1624190802281 as InitMigration }
+export { InitMigration1624190802281 as InitMigration };

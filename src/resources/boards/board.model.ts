@@ -1,31 +1,23 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { IBoard, IColumn } from '../types';
+import { Task } from '../tasks/task.model';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { BoardColumn } from './column.model';
 
 @Entity()
-export default class Board implements IBoard {
+export class Board {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 255 })
+  @Column()
   title: string;
 
-  @OneToMany(
-    () => BoardColumn,
-    column => column.board,
-    { onDelete: 'CASCADE', cascade: true, eager: true }
-  )
+  @OneToMany(() => BoardColumn, (column) => column.board, {
+    eager: true,
+    cascade: true,
+  })
+  columns: BoardColumn[];
 
-  columns!: IColumn[];
-
-  constructor({ id = uuidv4(), title = '', columns }: Partial<IBoard> = {}) {
-    this.id = id;
-    this.title = title;
-    if (columns) {
-      this.columns = columns;
-    }
-  }
+  @OneToMany(() => Task, (task) => task.boardId, {
+    cascade: true,
+  })
+  tasks: Task[];
 }
-
-// export { Board };
