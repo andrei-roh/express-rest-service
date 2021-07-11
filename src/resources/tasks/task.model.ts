@@ -28,7 +28,7 @@ export class Task {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  boardId: Object;
+  boardId: any | string | null;
 
   @Column({ nullable: true })
   columnId: string;
@@ -38,5 +38,5 @@ export class Task {
     const board = <Board>task.boardId;
     const boardId = !board ? null : board.id;
     return { id, title, order, description, userId, boardId, columnId };
-  };
+  }
 }

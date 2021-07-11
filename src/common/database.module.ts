@@ -5,5 +5,4 @@ import { setConnectionToDatabase } from './database';
 @Module({
   imports: [TypeOrmModule.forRoot(setConnectionToDatabase)],
 })
-
 export class getConnectionToDatabase {}

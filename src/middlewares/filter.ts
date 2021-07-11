@@ -16,15 +16,17 @@ export class Filter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    const statusCode = exception instanceof HttpException
-      ? exception.getStatus()
-      : StatusCodes.INTERNAL_SERVER_ERROR;
-    const message = exception instanceof HttpException
-      ? exception.message
-      : getReasonPhrase(statusCode);
+    const statusCode =
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : StatusCodes.INTERNAL_SERVER_ERROR;
+    const message =
+      exception instanceof HttpException
+        ? exception.message
+        : getReasonPhrase(statusCode);
     const { name, stack } = exception;
 
     this.logger.error({ statusCode, name, message, stack });
     response.status(statusCode).json({ statusCode, message });
-  };
-};
+  }
+}

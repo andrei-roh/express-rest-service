@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getCheckUser } from '../users/user.utils';
-import { UserService } from '../users/user.service';
+import { UsersService } from '../users/user.service';
 import { LoginUser } from './login.user';
 import { ILogin } from './login.interface';
 import { JwtService } from '@nestjs/jwt';
@@ -9,8 +9,8 @@ import { IUser } from '../users/user.interface';
 @Injectable()
 export class LoginService {
   constructor(
-    private readonly usersService: UserService,
-    private jwtService: JwtService
+    private readonly usersService: UsersService,
+    private jwtService: JwtService,
   ) {}
 
   async validateUser(loginUser: LoginUser): Promise<IUser | null> {
@@ -25,7 +25,7 @@ export class LoginService {
     return null;
   }
 
-  async login(user: IUser): Promise<{ message: string; token: string; }> {
+  async login(user: IUser): Promise<{ message: string; token: string }> {
     const { id, login } = user;
     const res: ILogin = { id, login };
     return {

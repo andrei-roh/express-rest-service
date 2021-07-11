@@ -4,7 +4,7 @@ import {
   HttpCode,
   Post,
   UseGuards,
-  UseFilters
+  UseFilters,
 } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { LocalGuard } from './local.guard';

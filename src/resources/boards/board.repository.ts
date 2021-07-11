@@ -10,7 +10,7 @@ export class BoardsRepository {
   constructor(
     @InjectRepository(Board)
     private boardsRepository: Repository<Board>,
-  ) { }
+  ) {}
 
   async getAll(): Promise<Board[]> {
     return await this.boardsRepository.find();

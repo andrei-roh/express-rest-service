@@ -9,24 +9,24 @@ import {
   NotFoundException,
   ParseUUIDPipe,
   UseFilters,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
-import { TaskService } from './task.service';
+import { TasksService } from './task.service';
 import { TaskCreate } from './task.create';
 import { TaskUpdate } from './task.update';
 import { Task } from './task.model';
 import { Filter } from '../../middlewares/filter';
 import { LoginGuard } from '../login/login.guard';
 
-@Controller('boards/:id/tasks')
+@Controller('boards/:boardId/tasks')
 @UseFilters(Filter)
 @UseGuards(LoginGuard)
-export class TaskController {
-  constructor(private readonly taskService: TaskService) { }
+export class TasksController {
+  constructor(private readonly tasksService: TasksService) {}
 
   @Get()
   async getAll() {
-    const tasks = await this.taskService.getAll();
+    const tasks = await this.tasksService.getAll();
     return tasks.map((task) => Task.toResponse(task));
   }
 
@@ -39,24 +39,27 @@ export class TaskController {
   @Post()
   async create(@Param('id') id: string, @Body() taskCreate: TaskCreate) {
     taskCreate.boardId = id;
-    return await this.taskService.create(taskCreate);
+    return await this.tasksService.create(taskCreate);
   }
 
   @Put(':id')
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() taskUpdate: TaskUpdate) {
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() taskUpdate: TaskUpdate,
+  ) {
     await this.isTask(id);
-    const task = await this.taskService.update(id, taskUpdate);
+    const task = await this.tasksService.update(id, taskUpdate);
     return Task.toResponse(task);
   }
 
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     await this.isTask(id);
-    return await this.taskService.deleteTask(id);
+    return await this.tasksService.deleteTask(id);
   }
 
   async isTask(id: string) {
-    const task = await this.taskService.getTask(id);
+    const task = await this.tasksService.getTask(id);
     if (!task) throw new NotFoundException();
     return task;
   }

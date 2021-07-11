@@ -6,17 +6,19 @@ import { ColumnUpdate } from './column.update';
 import { BoardColumn } from './column.model';
 
 @Injectable()
-export class ColumnRepository {
+export class ColumnsRepository {
   constructor(
     @InjectRepository(BoardColumn)
-    private columnRepository: Repository<BoardColumn>,
-  ) { }
+    private columnsRepository: Repository<BoardColumn>,
+  ) {}
 
-  async saveColumn(ColumnCreate: ColumnCreate[]): Promise<BoardColumn[]> {
-    return await Promise.all(ColumnCreate.map((column) => this.columnRepository.save(column)));
+  async saveColumns(columnCreate: ColumnCreate[]): Promise<BoardColumn[]> {
+    return await Promise.all(
+      columnCreate.map((column) => this.columnsRepository.save(column)),
+    );
   }
 
-  async updateColumns(ColumnUpdate: ColumnUpdate[]) {
-    return await this.columnRepository.save(ColumnUpdate);
+  async updateColumns(columnUpdate: ColumnUpdate[]) {
+    return await this.columnsRepository.save(columnUpdate);
   }
 }

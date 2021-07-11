@@ -1,5 +1,5 @@
 import { Module, Logger } from '@nestjs/common';
-import { UserModule } from '../users/user.module';
+import { UsersModule } from '../users/user.module';
 import { LoginController } from './login.controller';
 import { LoginService } from './login.service';
 import { LoginStrategy } from './login.strategy';
@@ -9,7 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
-    UserModule,
+    UsersModule,
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
@@ -20,5 +20,4 @@ import { JwtStrategy } from './jwt.strategy';
   providers: [LoginService, LoginStrategy, JwtStrategy, Logger],
   exports: [LoginService],
 })
-
 export class LoginModule {}

@@ -6,19 +6,19 @@ export class TaskCreate {
 
   @IsInt()
   order: number;
-  
+
   @IsString()
   description: string;
 
-  @ValidateIf(obj => obj.userId !== null)
+  @ValidateIf((obj) => obj.userId !== null)
   @IsUUID()
   userId: string | null;
 
-  @ValidateIf(obj => obj.boardId !== null)
+  @ValidateIf((obj) => obj.boardId !== null)
   @IsUUID()
   boardId: string | null;
 
-  @ValidateIf(obj => obj.columnId !== null && obj.columnId !== undefined)
+  @ValidateIf((obj) => obj.columnId !== null && obj.columnId !== undefined)
   @IsUUID()
   columnId: string | null;
 }

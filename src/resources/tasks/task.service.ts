@@ -7,27 +7,27 @@ import { Task } from './task.model';
 import { TasksRepository } from './task.repository';
 
 @Injectable()
-export class TaskService {
-  constructor(private readonly taskRepository: TasksRepository) {}
+export class TasksService {
+  constructor(private readonly tasksRepository: TasksRepository) {}
 
   async getAll(): Promise<Task[]> {
-    return await this.taskRepository.getAll();
+    return await this.tasksRepository.getAll();
   }
 
   async getTask(id: string): Promise<Task | undefined> {
-    return await this.taskRepository.get(id);
+    return await this.tasksRepository.get(id);
   }
 
-  async create(TaskCreate: TaskCreate): Promise<Task> {
-    return await this.taskRepository.save(TaskCreate);
+  async create(taskCreate: TaskCreate): Promise<Task> {
+    return await this.tasksRepository.save(taskCreate);
   }
 
-  async update(id: string, TaskUpdate: TaskUpdate): Promise<Task> {
-    const updatedTask = getUpdateTask(id, TaskUpdate)
-    return await this.taskRepository.update(updatedTask);
+  async update(id: string, taskUpdate: TaskUpdate): Promise<Task> {
+    const updatedTask = getUpdateTask(id, taskUpdate);
+    return await this.tasksRepository.update(updatedTask);
   }
 
   async deleteTask(id: string): Promise<DeleteResult> {
-    return await this.taskRepository.deleteTask(id);
+    return await this.tasksRepository.deleteTask(id);
   }
 }
