@@ -1,17 +1,17 @@
 import { Module, Logger, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { getConnectionToDatabase } from './common/database.module';
-import { UsersModule } from './resources/users/user.module';
-import { BoardsModule } from './resources/boards/board.module';
-import { TasksModule } from './resources/tasks/task.module';
-import { LoginModule } from './resources/login/login.module';
+import { AppController } from 'src/app.controller';
+import { AppService } from 'src/app.service';
+import { getConnectionToDatabase } from 'src/common/database.module';
+import { UsersModule } from 'src/resources/users/user.module';
+import { BoardsModule } from 'src/resources/boards/board.module';
+import { TasksModule } from 'src/resources/tasks/task.module';
+import { LoginModule } from 'src/resources/login/login.module';
 import { ConfigModule } from '@nestjs/config';
-import { Logging } from './middlewares/logging';
-import { LoginController } from './resources/login/login.controller';
-import { UsersController } from './resources/users/user.controller';
-import { BoardsController } from './resources/boards/board.controller';
-import { TasksController } from './resources/tasks/task.controller';
+import { Logging } from 'src/middlewares/logging';
+import { LoginController } from 'src/resources/login/login.controller';
+import { UsersController } from 'src/resources/users/user.controller';
+import { BoardsController } from 'src/resources/boards/board.controller';
+import { TasksController } from 'src/resources/tasks/task.controller';
 
 @Module({
   imports: [

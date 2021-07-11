@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ColumnCreate } from './column.create';
-import { ColumnUpdate } from './column.update';
-import { BoardColumn } from './column.model';
+import { ColumnCreate } from 'src/resources/boards/column.create';
+import { ColumnUpdate } from 'src/resources/boards/column.update';
+import { BoardColumn } from 'src/resources/boards/column.model';
 
 @Injectable()
 export class ColumnsRepository {

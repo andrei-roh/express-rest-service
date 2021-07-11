@@ -1,4 +1,4 @@
-import { ColumnCreate } from './column.create';
+import { ColumnCreate } from 'src/resources/boards/column.create';
 import { IsString, IsArray } from 'class-validator';
 
 export class BoardCreate {

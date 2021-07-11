@@ -1,6 +1,6 @@
 import { Controller, Get, UseFilters } from '@nestjs/common';
-import { AppService } from './app.service';
-import { Filter } from './middlewares/filter';
+import { AppService } from 'src/app.service';
+import { Filter } from 'src/middlewares/filter';
 
 @UseFilters(Filter)
 @Controller()

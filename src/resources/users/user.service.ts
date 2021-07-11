@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { UserCreate } from './user.create';
-import { UserUpdate } from './user.update';
-import { User } from './user.model';
-import { UsersRepository } from './user.repository';
-import { getCreateUser, getUpdateUser } from './user.utils';
+import { UserCreate } from 'src/resources/users/user.create';
+import { UserUpdate } from 'src/resources/users/user.update';
+import { User } from 'src/resources/users/user.model';
+import { UsersRepository } from 'src/resources/users/user.repository';
+import { getCreateUser, getUpdateUser } from 'src/resources/users/user.utils';
 
 @Injectable()
 export class UsersService {

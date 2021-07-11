@@ -1,9 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { InitMigration } from '../migrations/init';
-import { User } from '../resources/users/user.model';
-import { Board } from '../resources/boards/board.model';
-import { BoardColumn as Column } from '../resources/boards/column.model';
-import { Task } from '../resources/tasks/task.model';
+import { InitMigration } from 'src/migrations/init';
+import { User } from 'src/resources/users/user.model';
+import { Board } from 'src/resources/boards/board.model';
+import { BoardColumn as Column } from 'src/resources/boards/column.model';
+import { Task } from 'src/resources/tasks/task.model';
 import * as dotenv from 'dotenv';
 
 dotenv.config();

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { getUpdateTask } from './task.utils';
+import { getUpdateTask } from 'src/resources/tasks/task.utils';
 import { DeleteResult } from 'typeorm';
-import { TaskCreate } from './task.create';
-import { TaskUpdate } from './task.update';
-import { Task } from './task.model';
-import { TasksRepository } from './task.repository';
+import { TaskCreate } from 'src/resources/tasks/task.create';
+import { TaskUpdate } from 'src/resources/tasks/task.update';
+import { Task } from 'src/resources/tasks/task.model';
+import { TasksRepository } from 'src/resources/tasks/task.repository';
 
 @Injectable()
 export class TasksService {

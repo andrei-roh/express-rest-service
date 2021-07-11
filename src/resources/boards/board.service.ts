@@ -7,11 +7,11 @@ import {
   getUpdateColumn,
 } from './board.utils';
 import { DeleteResult } from 'typeorm';
-import { BoardsRepository } from './board.repository';
-import { ColumnsRepository } from './column.repository';
-import { BoardCreate } from './board.create';
-import { BoardUpdate } from './board.update';
-import { Board } from './board.model';
+import { BoardsRepository } from 'src/resources/boards/board.repository';
+import { ColumnsRepository } from 'src/resources/boards/column.repository';
+import { BoardCreate } from 'src/resources/boards/board.create';
+import { BoardUpdate } from 'src/resources/boards/board.update';
+import { Board } from 'src/resources/boards/board.model';
 
 @Injectable()
 export class BoardsService {

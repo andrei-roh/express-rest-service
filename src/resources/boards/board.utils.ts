@@ -1,7 +1,7 @@
-import { BoardCreate } from './board.create';
-import { BoardUpdate } from './board.update';
-import { ColumnCreate } from './column.create';
-import { BoardColumn } from './column.model';
+import { BoardCreate } from 'src/resources/boards/board.create';
+import { BoardUpdate } from 'src/resources/boards/board.update';
+import { ColumnCreate } from 'src/resources/boards/column.create';
+import { BoardColumn } from 'src/resources/boards/column.model';
 
 const getBoard = (title: string, columns: BoardColumn[]): BoardCreate =>
   Object({ title, columns });

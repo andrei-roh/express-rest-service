@@ -11,12 +11,12 @@ import {
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
-import { TasksService } from './task.service';
-import { TaskCreate } from './task.create';
-import { TaskUpdate } from './task.update';
-import { Task } from './task.model';
-import { Filter } from '../../middlewares/filter';
-import { LoginGuard } from '../login/login.guard';
+import { TasksService } from 'src/resources/tasks/task.service';
+import { TaskCreate } from 'src/resources/tasks/task.create';
+import { TaskUpdate } from 'src/resources/tasks/task.update';
+import { Task } from 'src/resources/tasks/task.model';
+import { Filter } from 'src/middlewares/filter';
+import { LoginGuard } from 'src/resources/login/login.guard';
 
 @Controller('boards/:boardId/tasks')
 @UseFilters(Filter)

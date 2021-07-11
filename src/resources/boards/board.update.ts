@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { BoardCreate } from './board.create';
+import { BoardCreate } from 'src/resources/boards/board.create';
 import { IsUUID, ValidateIf } from 'class-validator';
 
 export class BoardUpdate extends PartialType(BoardCreate) {

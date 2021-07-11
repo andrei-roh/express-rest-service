@@ -6,9 +6,9 @@ import {
   UseGuards,
   UseFilters,
 } from '@nestjs/common';
-import { LoginService } from './login.service';
-import { LocalGuard } from './local.guard';
-import { Filter } from '../../middlewares/filter';
+import { LoginService } from 'src/resources/login/login.service';
+import { LocalGuard } from 'src/resources/login/local.guard';
+import { Filter } from 'src/middlewares/filter';
 
 @UseFilters(Filter)
 @Controller('login')

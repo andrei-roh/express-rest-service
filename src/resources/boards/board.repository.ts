@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
-import { BoardCreate } from './board.create';
-import { BoardUpdate } from './board.update';
-import { Board } from './board.model';
+import { BoardCreate } from 'src/resources/boards/board.create';
+import { BoardUpdate } from 'src/resources/boards/board.update';
+import { Board } from 'src/resources/boards/board.model';
 
 @Injectable()
 export class BoardsRepository {

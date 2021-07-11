@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { getCheckUser } from '../users/user.utils';
-import { UsersService } from '../users/user.service';
-import { LoginUser } from './login.user';
-import { ILogin } from './login.interface';
+import { getCheckUser } from 'src/resources/users/user.utils';
+import { UsersService } from 'src/resources/users/user.service';
+import { LoginUser } from 'src/resources/login/login.user';
+import { ILogin } from 'src/resources/login/login.interface';
 import { JwtService } from '@nestjs/jwt';
-import { IUser } from '../users/user.interface';
+import { IUser } from 'src/resources/users/user.interface';
 
 @Injectable()
 export class LoginService {

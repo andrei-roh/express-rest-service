@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
-import { UserCreate } from './user.create';
-import { UserUpdate } from './user.update';
-import { User } from './user.model';
+import { UserCreate } from 'src/resources/users/user.create';
+import { UserUpdate } from 'src/resources/users/user.update';
+import { User } from 'src/resources/users/user.model';
 
 export const getCreateUser = async (
   userCreate: UserCreate,

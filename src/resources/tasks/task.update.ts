@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { TaskCreate } from './task.create';
+import { TaskCreate } from 'src/resources/tasks/task.create';
 import { IsUUID, ValidateIf } from 'class-validator';
 
 export class TaskUpdate extends PartialType(TaskCreate) {

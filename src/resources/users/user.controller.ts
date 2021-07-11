@@ -11,12 +11,12 @@ import {
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './user.service';
-import { UserCreate } from './user.create';
-import { UserUpdate } from './user.update';
-import { User } from './user.model';
-import { Filter } from '../../middlewares/filter';
-import { LoginGuard } from '../login/login.guard';
+import { UsersService } from 'src/resources/users/user.service';
+import { UserCreate } from 'src/resources/users/user.create';
+import { UserUpdate } from 'src/resources/users/user.update';
+import { User } from 'src/resources/users/user.model';
+import { Filter } from 'src/middlewares/filter';
+import { LoginGuard } from 'src/resources/login/login.guard';
 
 @Controller('users')
 @UseFilters(Filter)

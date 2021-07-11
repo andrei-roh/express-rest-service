@@ -11,11 +11,11 @@ import {
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
-import { BoardsService } from './board.service';
-import { BoardCreate } from './board.create';
-import { BoardUpdate } from './board.update';
-import { Filter } from '../../middlewares/filter';
-import { LoginGuard } from '../login/login.guard';
+import { BoardsService } from 'src/resources/boards/board.service';
+import { BoardCreate } from 'src/resources/boards/board.create';
+import { BoardUpdate } from 'src/resources/boards/board.update';
+import { Filter } from 'src/middlewares/filter';
+import { LoginGuard } from 'src/resources/login/login.guard';
 
 @Controller('boards')
 @UseFilters(Filter)
